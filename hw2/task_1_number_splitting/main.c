@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 void printSplitting(int *array, int number)
-{ 
+{
     int firstDigit = true;
     for (int currentlyPrinting = 1; currentlyPrinting <= number; currentlyPrinting++)
     {
@@ -27,7 +27,9 @@ void printSplitting(int *array, int number)
 
 int main() {
     int number = 0;
+    printf("Enter the number: \n");
     scanf("%d", &number);
+    printf("It's splittings:\n");
 
     int *array = malloc((number + 1) * sizeof(int));
     for (int i = 0; i < number + 1; i++)
@@ -51,9 +53,9 @@ int main() {
         }
 
         int currentSum = 0;
-        for (int i = 1; i <= number; i++)
+        for (int digit = 1; digit <= number; digit++)
         {
-            currentSum += array[i] * i;
+            currentSum += array[digit] * digit;
         }
 
         if (currentSum == number)
