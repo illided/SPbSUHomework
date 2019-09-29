@@ -81,6 +81,7 @@ int main() {
 
         }
         printf("%d cows and %d bulls\n", cows, bulls);
+        free(guess);
     } while (bulls != numOfDigits);
     printf("You win!!! (you guessed %d times)", numOfTries);
     return 0;
