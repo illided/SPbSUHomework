@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <limits.h>
 
-#define MAXSIZE 1000
+const int maxSize = 10000;
 
 int main() {
-    int array[MAXSIZE] = {0};
+    int array[maxSize];
+    for (int i = 0; i < maxSize; i++)
+    {
+        array[i] = 0;
+    }
     int arrayLength = 0;
 
     printf("Enter the length of the array:\n");
@@ -38,6 +42,5 @@ int main() {
     {
         printf("There is not a single maximum in the array that occurs more than once");
     }
-
     return 0;
 }
