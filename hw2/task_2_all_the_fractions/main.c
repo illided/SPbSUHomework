@@ -1,19 +1,19 @@
 #include <stdio.h>
 
-int greatestCommonFactor(int a, int b)
+int greatestCommonFactor(int firstNumber, int secondNumber)
 {
-    while (a != b)
+    while (firstNumber != secondNumber)
     {
-        if (a > b)
+        if (firstNumber > secondNumber)
         {
-            a = a - b;
+            firstNumber = firstNumber - secondNumber;
         }
         else
         {
-            b = b - a;
+            secondNumber = secondNumber - firstNumber;
         }
     }
-    return a;
+    return firstNumber;
 }
 
 int main() {
@@ -21,6 +21,7 @@ int main() {
 
     printf("Enter the n:\n");
     scanf("%d", &maxDenominator);
+    printf("All simple fractions with denominator less or equal to %d:\n", maxDenominator);
 
     for (int denominator = 2; denominator <= maxDenominator; denominator++)
     {
