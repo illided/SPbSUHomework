@@ -38,7 +38,7 @@ int main() {
         {
             break;
         }
-        if (isEmpty(input))
+        if (!isEmpty(input))
         {
             numOfEmptyStrings++;
         }
