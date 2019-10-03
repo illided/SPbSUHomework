@@ -47,26 +47,32 @@ int extractMax(int heapSize, int* heap)
 
 int main() {
     printf("Enter the length of the array:\n");
-    int heapSize = 0;
-    scanf("%d", &heapSize);
+    int arrayLength = 0;
+    scanf("%d", &arrayLength);
 
-    int *heap = malloc(sizeof(int) * heapSize);
+    int *array = malloc(sizeof(int) * arrayLength);
     printf("Enter the array:\n");
-    for (int i = 0; i < heapSize; i++)
+    for (int i = 0; i < arrayLength; i++)
     {
-        scanf("%d", &heap[i]);
+        scanf("%d", &array[i]);
     }
 
-    for (int i = heapSize - 1; i > 0; i--)
+    int *heap = malloc(sizeof(int) * arrayLength);
+    for (int i = 0; i < arrayLength; i++)
     {
+        heap[i] = array[i];
         siftUp(i, heap);
     }
 
-   printf("Sorted array:\n");
-   for (int i = heapSize - 1; i >= 0; i--)
-   {
-       printf("%d ", heap[i]);
-   }
-   free(heap);
-   return 0;
+    for (int heapSize = arrayLength; heapSize > 0; heapSize--)
+    {
+        array[heapSize - 1] = extractMax(heapSize, heap);
+    }
+
+    printf("Sorted array:\n");
+    for (int i = 0; i < arrayLength; i++)
+    {
+        printf("%d ", array[i]);
+    }
+    return 0;
 }
