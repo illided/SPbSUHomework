@@ -67,7 +67,6 @@ int main() {
 
     if (arrayLength >= 3)
     {
-
         for (int i = 0; i <= (arrayLength - 1) - ((arrayLength - 1) % 2) - 2 ; i += 2)
         {
             for (int j = i + 2; j <= (arrayLength - 1) - ((arrayLength - 1) % 2); j += 2)
@@ -86,4 +85,5 @@ int main() {
         printf("%d ", array[i]);
     }
     free(array);
+    return 0;
 }
