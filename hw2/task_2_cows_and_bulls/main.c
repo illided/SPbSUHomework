@@ -102,29 +102,30 @@ int main() {
         int guessLength = strlen(guess);
         for (int guessCharPos = 0; guessCharPos < guessLength; guessCharPos++)
         {
-            if (guess[guessCharPos] == guessedNumber[guessCharPos])
-            {
-                bulls++;
-                continue;
-            }
-            for (int guessNumberCharPos = 0; guessNumberCharPos < numOfDigits; guessNumberCharPos++)
-            {
-                char charToCheck = guess[guessCharPos];
-                if (charToCheck == guessedNumber[guessNumberCharPos])
-                {
-                    cows++;
-                }
-            }
-        }
-        numOfTries++;
-        printf("Bulls:%d Cows:%d Tries:%d\n", bulls, cows, numOfTries);
+           if (guess[guessCharPos] == guessedNumber[guessCharPos])
+           {
+               bulls++;
+               continue;
+           }
 
-        /*  Algorithm above says:
-        * Check for every digit in the guess:
-        * if on the same checked place the guessed number
-        * and assumption have the same digit then add one bull.
-        * Otherwise, check each element
-        * in the guessed number and if you find a match then add a cow. */
+           /* Check for every digit in the guess
+            * if on the same checked place the guessed number
+            * and assumption have the same digit then add one bull. */
+
+           char charToCheck = guess[guessCharPos];
+           for (int guessNumberCharPos = 0; guessNumberCharPos < numOfDigits; guessNumberCharPos++)
+           {
+               if (charToCheck == guessedNumber[guessNumberCharPos])
+               {
+                   cows++;
+               }
+           }
+
+           /* Otherwise, check each element
+            * in the guessed number and if you find a match then add a cow. */
+       }
+       numOfTries++;
+       printf("Bulls:%d Cows:%d Tries:%d\n", bulls, cows, numOfTries);
     }
     while (bulls != numOfDigits);  // and do it till guess == guessed number
     printf("You win!!! (you guessed %d times)", numOfTries);
