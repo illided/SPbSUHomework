@@ -9,11 +9,11 @@ void swap(int *firstNumber, int *secondNumber)
     *firstNumber = temp;
 }
 
-int* scanArray(int* globalArrayLength)
+int *scanArray(int *globalArrayLength)
 {
     int input = 0;
     int arraySize = 5;
-    int* array = malloc(sizeof(int) * arraySize);
+    int *array = malloc(sizeof(int) * arraySize);
     int localArrayLength = 0;
     scanf("%d", &input);
     while (input != 0)
@@ -47,7 +47,7 @@ int main() {
     char theWayOfOperating = ' ';
     scanf("%c", &theWayOfOperating);
     int arrayLength = 0;
-    int* array = NULL;
+    int *array = NULL;
     if (theWayOfOperating == 's')
     {
         printf("Enter the array:\n");
