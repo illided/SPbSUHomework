@@ -32,7 +32,8 @@ char* createString(int stringLength)
 }
 
 int main() {
-    printf("Choose the difficulty (how many digits in the guessed number less than 11):\n");
+    printf("Choose the difficulty (number between 0 and 11: "
+           "how many digits in the guessed number):\n");
     int numOfDigits = 0;
     scanf("%d", &numOfDigits);
     if ((numOfDigits <= 0) || (numOfDigits > 10))
@@ -89,6 +90,10 @@ int main() {
     int cows = 0;
     int bulls = 0;
     char *guess = createString(maxSize);
+    printf("Rules:\n"
+           "For each correct figure not in its position, you get a cow\n"
+           "For every correct figure in its position, you get a bull\n"
+           "Start your guessing!\n");
     do
     {
         cows = 0;
@@ -111,8 +116,8 @@ int main() {
                 }
             }
         }
-        printf("Bulls:%d Cows:%d\n", bulls, cows);
         numOfTries++;
+        printf("Bulls:%d Cows:%d Tries:%d\n", bulls, cows, numOfTries);
 
         /*  Algorithm above says:
         * Check for every digit in the guess:
