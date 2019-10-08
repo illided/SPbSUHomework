@@ -9,13 +9,17 @@ int main()
 
     int numerals[10] = {0};
 
-    while (number > 0)
+    while (number > 0)  // counting how many of every digit there are in a number
     {
         numerals[number % 10]++;
         number = number / 10;
     }
 
     int result = 0;
+
+    /* if there are some zeros in the initial number then lets put at the
+     * first position the smallest digit
+     * and then all the zeros. */
 
     if (numerals[0] != 0)
     {
@@ -28,6 +32,8 @@ int main()
         result += firstDigit;
     }
 
+    // Continue (or starting) building the number after that
+
     int digitNumber = 0;
 
     while (digitNumber != 9)
@@ -36,6 +42,9 @@ int main()
         {
             digitNumber++;
         }
+
+        /* Taking the smallest digits that we still have
+         * and building the number. */
 
         while(numerals[digitNumber] != 0)
         {
