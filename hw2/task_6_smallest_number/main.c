@@ -2,10 +2,9 @@
 
 int main()
 {
-    int number = 0;
-
+    unsigned long long int number = 0;
     printf("Enter the number:\n");
-    scanf("%d", &number);
+    scanf("%llu", &number);
 
     int numerals[10] = {0};
 
@@ -15,10 +14,10 @@ int main()
         number = number / 10;
     }
 
-    int result = 0;
+    unsigned long long int result = 0;
 
     /* if there are some zeros in the initial number then lets put at the
-     * first position the smallest digit
+     * first position the smallest non zero digit
      * and then all the zeros. */
 
     if (numerals[0] != 0)
@@ -53,6 +52,6 @@ int main()
         }
     }
 
-    printf("Answer:\n%d", result);
+    printf("Answer:\n%llu", result);
     return 0;
 }
