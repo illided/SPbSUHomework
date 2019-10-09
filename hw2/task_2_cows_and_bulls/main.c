@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-const bool showTheAnswer = true; //change to true if you want the answer to be shown at the start of the game
-const int maxSize = 80;
+const bool showTheAnswer = false; //change to true if you want the answer to be shown at the start of the game
+const int maxSize = 80;  // maxSize > 11 because user can enter the bigger string
 
 int raiseToThePower(int number, int power)
 {
