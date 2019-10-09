@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
+#include "simpleArrays.h"
 
 const int maxSize = 1000;
 
 void countNumOfChar(unsigned char input[], int charArray[])
 {
-    for (int i = 0; i < strlen(input); i++)
+    unsigned int inputLength = strlen(input);
+    for (unsigned int i = 0; i < inputLength; i++)
     {
         charArray[input[i]]++;
     }
@@ -14,13 +17,8 @@ void countNumOfChar(unsigned char input[], int charArray[])
 
 bool isConvertable(unsigned char convertFrom[], unsigned char convertTo[])
 {
-    int charArray1[maxSize];
-    int charArray2[maxSize];
-    for (int i = 0; i < maxSize; i++)
-    {
-        charArray1[i] = 0;
-        charArray2[i] = 0;
-    }
+    int *charArray1 = createArrayOfInt(maxSize);
+    int *charArray2 = createArrayOfInt(maxSize);
 
     countNumOfChar(convertFrom, charArray1);
     countNumOfChar(convertTo, charArray2);
@@ -33,18 +31,15 @@ bool isConvertable(unsigned char convertFrom[], unsigned char convertTo[])
         }
     }
 
+    free(charArray1);
+    free(charArray2);
     return true;
 }
 
 int main()
 {
-    unsigned char convertFrom[maxSize];
-    unsigned char convertTo[maxSize];
-    for (int i = 0; i < maxSize; i++)
-    {
-        convertFrom[i] = ' ';
-        convertTo[i] = ' ';
-    }
+    unsigned char *convertFrom = createUnsignedString(maxSize);
+    unsigned char *convertTo = createUnsignedString(maxSize);
 
     printf("Enter the first string:\n");
     scanf("%s", convertFrom);
@@ -60,5 +55,7 @@ int main()
         printf("Can not be converted");
     }
 
+    free(convertFrom);
+    free(convertTo);
     return 0;
 }
