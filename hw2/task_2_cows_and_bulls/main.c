@@ -45,7 +45,7 @@ int main() {
     // Creating the answer with non repetitive digits and converting it to string.
     srand(time(NULL));
     int *guessedNumberAsArrayOfInt = malloc(sizeof(int) * numOfDigits);
-    guessedNumberAsArrayOfInt[0] = 1 + rand() % 10;
+    guessedNumberAsArrayOfInt[0] = 1 + rand() % 9;
     // Setting the first digit to a non zero term
     for (int i = 1; i < numOfDigits; i++)
     {
