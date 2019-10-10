@@ -67,7 +67,10 @@ int main() {
     quickSort(0, arrayLength - 1, array);  // sorting it
 
     int pointer = arrayLength - 1;
-    for (; (pointer > 0) && (array[pointer] != array[pointer - 1]); pointer--);  // finding the biggest repetitive
+    while ((pointer > 0) && (array[pointer] != array[pointer - 1])) // finding the biggest repetitive
+    {
+        pointer--;
+    }
 
     if (pointer == 0)
     {
