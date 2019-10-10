@@ -15,18 +15,6 @@ void addFraction(int numerator, int denominator, Fraction* fraction)
     fraction->denominator = denominator;
 }
 
-void printFractions(Fraction* arrayOfFractions, int arrayLength, int step)
-{
-    for (int i = 0; i < arrayLength; i++)
-    {
-        printf("%d/%d ", arrayOfFractions[i].numerator, arrayOfFractions[i].denominator);
-        if (i % step == 0)  // going to the next line every (step) fraction to add some readability;
-        {
-            printf("\n");
-        }
-    }
-}
-
 int main()
 {
     /* This solution uses a series of Faroese, in which each next fraction is
@@ -35,7 +23,11 @@ int main()
        if we already have two fractions a / b and c / d in the sequence,
        then the third fraction p / q is calculated as
        p = round ((n + b) / d) * c - a
-       q = round ((n + b) / d) * d - b   */
+       q = round ((n + b) / d) * d - b
+
+       This series is very similar to Fibonacci's numbers.
+       It means that we dont need to store all the fractions
+       but only two of them at a time. */
 
     int maxDenominator = 0;
     printf("Enter the n (n - is a natural number):\n");
@@ -46,50 +38,43 @@ int main()
         return 0;
     }
 
-    int arraySize = 5;
-    Fraction* arrayOfFractions = malloc(sizeof(Fraction) * arraySize);  // creating the array of all fractions
+    printf("All the simple fractions between 0 and 1 with the denominator less than %d:\n", maxDenominator);
+
+    Fraction* arrayOfFractions = malloc(sizeof(Fraction) * 2);  // creating the array of two fractions
     addFraction(0, 1, &arrayOfFractions[0]);
     addFraction(1, maxDenominator, &arrayOfFractions[1]);
+    printf("%d/%d\n", arrayOfFractions[0].numerator, arrayOfFractions[0].denominator);
+    printf("%d/%d\n", arrayOfFractions[1].numerator, arrayOfFractions[1].denominator);
 
     /* The first two fractions should be 0/1 and 1/n since they
     are obviously the smallest and the last will be 1/1. */
 
     if (maxDenominator == 1)  // in case n = 1 answer will be 0/1 and 1/1
     {
-        printf("All the simple fractions with the denominator less than %d:\n", maxDenominator);
-        printFractions(arrayOfFractions, 2, 5);
         return 0;
     }
 
-    int arrayLength = 2;
     int numerator = 0;
     int denominator = 0;
 
     do  // start creating the sequence
     {
-        if (arrayLength == arraySize)  // adding more space if needed
-        {
-            arraySize += 5;
-            arrayOfFractions = realloc(arrayOfFractions, sizeof(Fraction) * arraySize);
-        }
-        numerator = (maxDenominator + arrayOfFractions[arrayLength - 2].denominator) /
-                arrayOfFractions[arrayLength - 1].denominator * arrayOfFractions[arrayLength - 1].numerator -
-                arrayOfFractions[arrayLength - 2].numerator;  // = p
+        numerator = (maxDenominator + arrayOfFractions[0].denominator) /
+                arrayOfFractions[1].denominator * arrayOfFractions[1].numerator -
+                arrayOfFractions[0].numerator;  // = p
 
-        denominator = (maxDenominator + arrayOfFractions[arrayLength - 2].denominator) /
-                arrayOfFractions[arrayLength - 1].denominator * arrayOfFractions[arrayLength - 1].denominator -
-                arrayOfFractions[arrayLength - 2].denominator;  // = q
+        denominator = (maxDenominator + arrayOfFractions[0].denominator) /
+                arrayOfFractions[1].denominator * arrayOfFractions[1].denominator -
+                arrayOfFractions[0].denominator;  // = q
 
-        addFraction(numerator, denominator, &arrayOfFractions[arrayLength]);  // adding p/q
-        arrayLength++;
+        addFraction(arrayOfFractions[1].numerator, arrayOfFractions[1].denominator, &arrayOfFractions[0]);  // setting second fraction to first position
+        addFraction(numerator, denominator, &arrayOfFractions[1]);  // adding p/q
+        printf("%d/%d\n", arrayOfFractions[1].numerator, arrayOfFractions[1].denominator);  // printing
     }
-    while (arrayOfFractions[arrayLength - 1].denominator != 1);
+    while (arrayOfFractions[1].denominator != 1);
 
     /*Also there will be only two fractions with the denominator 1
      and there is no point to check the numerator of the last fraction*/
-
-    printf("All the simple fractions with the denominator less than %d:\n", maxDenominator);
-    printFractions(arrayOfFractions, arrayLength, 5);
 
     free(arrayOfFractions);
     return 0;
