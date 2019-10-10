@@ -27,7 +27,7 @@ int main() {
             userActionsDates = realloc(userActionsDates, sizeof(int) * numOfUserAction);
         }
         printf("Enter user actions:\n");
-        scanArrayOfInt(0, numOfUserAction - 1,userActionsDates);
+        scanArrayOfInt(0, numOfUserAction - 1, userActionsDates);
 
         int suitableActions = 0;  // check whether this user suits the request
         for (int j = 0; j < numOfUserAction; j++)
