@@ -40,10 +40,13 @@ void scanArrayOfInt(int begin, int end, int *arrayOfInt)
     }
 }
 
-void printArrayOfInt(int begin, int end, int *arrayOfInt)
+void printArrayOfInt(int begin, int end, int step, int *arrayOfInt)
 {
-    for (int i = begin; i <= end; i++)
+    int i = begin;
+    while (i != end)
     {
         printf("%d ", arrayOfInt[i]);
+        i += step;
     }
+    printf("%d ", arrayOfInt[i]);
 }

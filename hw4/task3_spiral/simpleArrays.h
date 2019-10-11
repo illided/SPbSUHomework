@@ -5,6 +5,6 @@ char* createString(int stringLength);
 unsigned char* createUnsignedString(int stringLength);
 int *createArrayOfInt(int arrayLength);
 void scanArrayOfInt(int begin, int end, int *arrayOfInt);
-void printArrayOfInt(int begin, int end, int *array);
+void printArrayOfInt(int begin, int end, int step, int *array);
 
 #endif
