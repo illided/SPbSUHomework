@@ -74,6 +74,8 @@ int main() {
     {
         printf("%d ", array[i]);
     }
+
     free(heap);
+    free(array);
     return 0;
 }
