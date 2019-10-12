@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include "simpleArrays.h"
 
-void printRing(int **matrix, int matrixDimension, int radius)
+void printRing(int **matrix, int center, int radius)
 {
-    int center = matrixDimension / 2;
-
     for (int i = 0; i < 2 * radius; i++)
     {
         printf("%d ", matrix[center - i + radius - 1][center - radius]);
@@ -18,7 +16,7 @@ void printRing(int **matrix, int matrixDimension, int radius)
         printf("%d ", matrix[center + i - radius + 1][center + radius]);
     }
 
-    printArrayOfInt(center + radius - 1, center - radius, -1, matrix[center + radius]);
+    printArrayOfInt(center + radius - 1, center - radius, - 1, matrix[center + radius]);
 }
 
 int main() {
@@ -54,7 +52,7 @@ int main() {
     printf("%d ", matrix[matrixDimension / 2][matrixDimension / 2]);  // print central element
     for (int radius = 1; radius <= matrixDimension / 2; radius++)  // print all the rings
     {
-        printRing(matrix, matrixDimension, radius);
+        printRing(matrix, matrixDimension / 2, radius);
     }
 
     for (int i = 0; i < matrixDimension; i++)
