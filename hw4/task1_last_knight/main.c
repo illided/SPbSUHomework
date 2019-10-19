@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "circularList.h"
+#include <stdlib.h>
 
 int main() {
     int numOfKnights = 0;
@@ -20,17 +21,16 @@ int main() {
     int stepsLeft = killedNumber;
     while (numOfKnights != 1)
     {
-        stepsLeft = killedNumber - 1;
-        while (stepsLeft != 0)
+        for (stepsLeft = killedNumber - 1; stepsLeft != 0; stepsLeft--)
         {
             setRootToNext(circle);
-            stepsLeft--;
         }
         delete(circle);
         numOfKnights--;
     }
 
-    printf("%d", getValueFromRoot(circle));
-
+    printf("Surviving knight position:\n%d", getValueFromRoot(circle));
+    delete(circle);
+    free(circle);
     return 0;
 }
