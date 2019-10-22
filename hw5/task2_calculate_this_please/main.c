@@ -69,9 +69,8 @@ int getOperationResult(char operation, int firstNumber, int secondNumber)
 }
 
 int calculateFromRPNString(char* input) {
-    StackOfInt *numbers = createStackOfInt();
+    StackOfInt* numbers = createStackOfInt();
     int numberBuffer = 0;
-    int result = 0;
 
     for (int charPos = 0; input[charPos] != '\0'; charPos++)
     {
@@ -105,7 +104,9 @@ int calculateFromRPNString(char* input) {
             return 0;
         }
     }
-    return popInt(numbers);
+    int result = popInt(numbers);
+    free (numbers);
+    return result;
 }
 
 int main() {
