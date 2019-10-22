@@ -68,7 +68,8 @@ int getOperationResult(char operation, int firstNumber, int secondNumber)
     }
 }
 
-int calculateFromRPNString(char* input) {
+int calculateFromRPNString(char* input)
+{
     StackOfInt* numbers = createStackOfInt();
     int numberBuffer = 0;
 
@@ -109,7 +110,8 @@ int calculateFromRPNString(char* input) {
     return result;
 }
 
-int main() {
+int main()
+{
     char* input = getString();
     printf("%d", calculateFromRPNString(input));
     free(input);
