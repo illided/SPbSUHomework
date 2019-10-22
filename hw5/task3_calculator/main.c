@@ -140,6 +140,7 @@ char* convertRPN(char* input)
         outputLength += 2;
     }
     output[outputLength] = '\0';
+    free(specialCharsStack);
     return output;
 }
 
@@ -182,12 +183,13 @@ int calculateFromRPNString(char* input)
 {
     StackOfInt* numbers = createStackOfInt();
     int numberBuffer = 0;
-
+    bool bufferIsEmpty = true;
     for (int charPos = 0; input[charPos] != '\0'; charPos++)
     {
         if (isdigit(input[charPos]))
         {
             numberBuffer = 10 * numberBuffer + (int) (input[charPos] - '0');
+            bufferIsEmpty = false;
         }
         else if (isOperation(input[charPos]))
         {
@@ -198,15 +200,21 @@ int calculateFromRPNString(char* input)
             }
             int secondNumber = popInt(numbers);
             int firstNumber = popInt(numbers);
+            if ((secondNumber == 0) || (input[charPos] == '/'))
+            {
+                printf("Incorrect input (tried to divide by zero)\n");
+                return 0;
+            }
             appendInt(getOperationResult(input[charPos], firstNumber, secondNumber), numbers);
 
         }
         else if (input[charPos] == ' ')
         {
-            if (numberBuffer != 0)
+            if (!bufferIsEmpty)
             {
                 appendInt(numberBuffer, numbers);
                 numberBuffer = 0;
+                bufferIsEmpty = true;
             }
         }
         else
@@ -216,7 +224,7 @@ int calculateFromRPNString(char* input)
         }
     }
     int result = popInt(numbers);
-    free (numbers);
+    free(numbers);
     return result;
 }
 
