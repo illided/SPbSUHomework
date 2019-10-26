@@ -45,7 +45,7 @@ int main()
         /* Taking the smallest digits that we still have
          * and building the number. */
 
-        while(numerals[digitNumber] != 0)
+        while (numerals[digitNumber] != 0)
         {
             result = result * 10 + digitNumber;
             numerals[digitNumber]--;
