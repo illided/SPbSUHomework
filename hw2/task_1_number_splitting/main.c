@@ -70,5 +70,6 @@ int main() {
             printSplitting(array, number);
         }
     }
+    free(array);
     return 0;
 }
