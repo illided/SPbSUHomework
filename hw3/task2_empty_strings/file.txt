@@ -6,3 +6,5 @@ spaces
 tabs
 
 nothing
+		 
+two tabs and whitespace

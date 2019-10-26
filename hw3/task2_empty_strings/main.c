@@ -24,6 +24,7 @@ int main() {
         printf("Something went wrong");
         return 0;
     }
+    rewind(file);
     char* input = malloc(sizeof(char) * maxSize);
     for (int i = 0; i < maxSize; i++)
     {
@@ -42,8 +43,10 @@ int main() {
         {
             numOfEmptyStrings++;
         }
-    } while (!feof(file));
+    }
+    while (!feof(file));
     printf("%d", numOfEmptyStrings);
     fclose(file);
+    free(input);
     return 0;
 }
