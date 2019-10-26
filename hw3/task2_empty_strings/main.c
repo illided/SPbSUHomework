@@ -31,7 +31,7 @@ int main() {
         input[i] = ' ';
     }
 
-    int numOfEmptyStrings = 0;
+    int numOfNonEmptyStrings = 0;
     do
     {
         fgets(input, sizeof(char) * maxSize, file);
@@ -41,11 +41,11 @@ int main() {
         }
         if (!isEmpty(input))
         {
-            numOfEmptyStrings++;
+            numOfNonEmptyStrings++;
         }
     }
     while (!feof(file));
-    printf("%d", numOfEmptyStrings);
+    printf("%d", numOfNonEmptyStrings);
     fclose(file);
     free(input);
     return 0;
