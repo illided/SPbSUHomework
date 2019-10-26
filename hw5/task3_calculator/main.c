@@ -46,6 +46,18 @@ char* getString()
     return output;
 }
 
+bool isOperation(char input)
+{
+    for (int i = 0; i < numOfOperations; i++)
+    {
+        if (input == operations[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 char* convertRPN(char* input)
 {
     int outputLength = 0;
@@ -57,25 +69,6 @@ char* convertRPN(char* input)
         if (input[currentChar] == ' ')
         {
             continue;
-        }
-
-        /* checking if the input is correct
-         * (dont contain any other characters
-         * than digits or operations)*/
-        bool inputIsCorrect = false;
-        for (int i = 0; i < numOfOperations; i++)
-        {
-            if (input[currentChar] == operations[i])
-            {
-                inputIsCorrect = true;
-            }
-        }
-        inputIsCorrect = inputIsCorrect + isdigit(input[currentChar]) + (input[currentChar] == '(') +
-                         (input[currentChar] == ')');
-        if (!inputIsCorrect)
-        {
-            printf("Input is incorrect (non correct characters)");
-            return NULL;
         }
 
         if (isdigit(input[currentChar]))
@@ -116,7 +109,7 @@ char* convertRPN(char* input)
             }
             popChar(specialCharsStack);
         }
-        else
+        else if (isOperation(input[currentChar]))
         {
             /* if token is an operation then:
              * 1) if op have bigger priority than op on the top of the stack
@@ -131,6 +124,11 @@ char* convertRPN(char* input)
             }
             appendChar(input[currentChar], specialCharsStack);
         }
+        else
+        {
+            printf("Input is incorrect (non correct characters)");
+            return NULL;
+        }
     }
     /* add all left chars in the stack to the output */
     while (!stackOfCharIsEmpty(specialCharsStack))
@@ -142,18 +140,6 @@ char* convertRPN(char* input)
     output[outputLength] = '\0';
     free(specialCharsStack);
     return output;
-}
-
-bool isOperation(char input)
-{
-    for (int i = 0; i < numOfOperations; i++)
-    {
-        if (input == operations[i])
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 int getOperationResult(char operation, int firstNumber, int secondNumber)
