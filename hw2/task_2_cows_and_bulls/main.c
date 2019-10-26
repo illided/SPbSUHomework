@@ -31,17 +31,8 @@ char* createString(int stringLength)
     return localString;
 }
 
-int main() {
-    printf("Choose the difficulty (number between 0 and 11: "
-           "how many digits in the guessed number):\n");
-    int numOfDigits = 0;
-    scanf("%d", &numOfDigits);
-    if ((numOfDigits <= 0) || (numOfDigits > 10))
-    {
-        printf("Incorrect input");
-        return 0;
-    }
-
+char* generateGuessedNumber(int numOfDigits)
+{
     // Creating the answer with non repetitive digits and converting it to string.
     srand(time(NULL));
     int *guessedNumberAsArrayOfInt = malloc(sizeof(int) * numOfDigits);
@@ -79,7 +70,21 @@ int main() {
     // Deleting the array of int because it doesn't do anything now
     free(guessedNumberAsArrayOfInt);
     guessedNumber[numOfDigits] = '\0';
+    return guessedNumber;
+}
 
+int main() {
+    printf("Choose the difficulty (number between 0 and 11: "
+           "how many digits in the guessed number):\n");
+    int numOfDigits = 0;
+    scanf("%d", &numOfDigits);
+    if ((numOfDigits <= 0) || (numOfDigits > 10))
+    {
+        printf("Incorrect input");
+        return 0;
+    }
+
+    char *guessedNumber = generateGuessedNumber(numOfDigits);
 
     if (showTheAnswer)
     {
@@ -91,8 +96,8 @@ int main() {
     int bulls = 0;
     char *guess = createString(maxSize);
     printf("Rules:\n"
-           "For each correct figure not in its position, you get a cow\n"
-           "For every correct figure in its position, you get a bull\n"
+           "For each correct figure not in it's position, you get a cow\n"
+           "For every correct figure in it's position, you get a bull\n"
            "Start your guessing!\n");
     do
     {
