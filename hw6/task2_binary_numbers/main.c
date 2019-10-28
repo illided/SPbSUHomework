@@ -54,7 +54,7 @@ short int* convertFromDecToBinary(int number)
 
     /* Checks if the number is negative
      * and if it is a negative than multiplying it
-     * by 2 and keeping this in mind */
+     * by -1 and keeping this in mind */
 
     bool numberIsNegative = (number < 0);
     if (numberIsNegative)
@@ -74,6 +74,7 @@ short int* convertFromDecToBinary(int number)
      * was true than we need to transfer the number
      * to an "additional code"
      * (replace 0 by 1, 1 by 0 and add 1) */
+
     if (numberIsNegative)
     {
         for (int i = 0; i < maxBinaryNumLength; i++)
@@ -94,9 +95,11 @@ int convertFromBinToDec(short int* numberInBinary)
 {
     int numberInDec = 0;
     bool numberIsNegative = false;
+
     /* If the number is negative, then it needs
      * some preparation (you need to replace 0 with 1,
      * 1 with 0 and subtract one) */
+
     if (numberInBinary[0] == 1)
     {
         numberIsNegative = true;
