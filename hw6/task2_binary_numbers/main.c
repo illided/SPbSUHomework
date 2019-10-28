@@ -27,6 +27,13 @@ short int* getSumOfBinaries(short int* firstNumber, short int* secondNumber)
         result[i] = 0;
     }
 
+    /* Algorithm beneath says:
+     * for every digit (from last position to first)
+     * sum 2 digit and a buffer (something that we usually "keep in mind")
+     * then if we got 0 or 1 - ok
+     * if we got a 2 than result = 0 and buffer = 1
+     * if we got a 3 than result = 1 and buffer = 1 */
+
     for (int i = maxBinaryNumLength - 1; i >= 0; i--)
     {
         result[i] = firstNumber[i] + secondNumber[i] + buffer;
@@ -45,6 +52,10 @@ short int* convertFromDecToBinary(int number)
         numberInBinary[i] = 0;
     }
 
+    /* Checks if the number is negative
+     * and if it is a negative than multiplying it
+     * by 2 and keeping this in mind */
+
     bool numberIsNegative = (number < 0);
     if (numberIsNegative)
     {
@@ -59,12 +70,17 @@ short int* convertFromDecToBinary(int number)
         number = number / 2;
     }
 
+    /* If previous check for negativity
+     * was true than we need to transfer the number
+     * to an "additional code"
+     * (replace 0 by 1, 1 by 0 and add 1) */
     if (numberIsNegative)
     {
         for (int i = 0; i < maxBinaryNumLength; i++)
         {
             numberInBinary[i] = 1 - numberInBinary[i];
         }
+        /* This horror was added to prevent memory leaks */
         short int* one = convertFromDecToBinary(1);
         short int* negativeNumberInBinary = getSumOfBinaries(numberInBinary, one);
         free(numberInBinary);
@@ -78,6 +94,9 @@ int convertFromBinToDec(short int* numberInBinary)
 {
     int numberInDec = 0;
     bool numberIsNegative = false;
+    /* If the number is negative, then it needs
+     * some preparation (you need to replace 0 with 1,
+     * 1 with 0 and subtract one) */
     if (numberInBinary[0] == 1)
     {
         numberIsNegative = true;
@@ -93,11 +112,13 @@ int convertFromBinToDec(short int* numberInBinary)
         }
     }
 
+    /* Converting a POSITIVE binary to decimal */
     for (int i = 0; i < maxBinaryNumLength; i++)
     {
         numberInDec += (int)numberInBinary[i] * raiseToThePower(2, maxBinaryNumLength - i - 1);
     }
 
+    /* Multiplying it by -1 if it was negative */
     if (numberIsNegative)
     {
         numberInDec *= -1;
