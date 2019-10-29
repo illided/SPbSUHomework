@@ -15,7 +15,8 @@ char* stretch(char* input, int requiredLength)
     int numOfSpaces = 0;
     for (int i = 0; i < inputLength; i++)
     {
-        if (input[i] == ' ') {
+        if (input[i] == ' ')
+        {
             numOfSpaces++;
         }
     }
