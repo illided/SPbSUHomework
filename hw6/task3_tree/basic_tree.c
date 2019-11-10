@@ -110,27 +110,43 @@ Node* findNodeWithValue(int value, Node* node)
     return node;
 }
 
-void replaceChild(Node* OldChild, Node* newParentForOldChild, Node* newChild, Tree* tree)
+void setChild(Node* child, Node* parent, Tree* tree)
 {
-    if (OldChild->parent == NULL)
+    if (parent != NULL)
     {
-        OldChild->parent = newParentForOldChild;
-        if (newChild != NULL)
+        if (child->value > parent->value)
         {
-            newChild->parent = NULL;
+            parent->rightChild = child;
         }
-        tree->root = newChild;
-        return;
+        else if (child->value < parent->value)
+        {
+            parent->leftChild = child;
+        }
     }
-    if (OldChild->parent->leftChild == OldChild)
+    else
     {
-        OldChild->parent->leftChild = newChild;
+        tree->root = child;
     }
-    else if (OldChild->parent->rightChild == OldChild)
+    child->parent = parent;
+}
+
+void replaceWithNull(Node* node, Tree* tree)
+{
+    if (node->parent != NULL)
     {
-        OldChild->parent->rightChild = newChild;
+        if (node->parent->leftChild == node)
+        {
+            node->parent->leftChild = NULL;
+        }
+        else if (node->parent->rightChild == node)
+        {
+            node->parent->rightChild = NULL;
+        }
     }
-    OldChild->parent = newParentForOldChild;
+    else
+    {
+        tree->root = NULL;
+    }
 }
 
 Node* findMaxNode(Node* node)
@@ -146,17 +162,17 @@ void deleteNodeByPointer(Node* node, Tree* tree)
 {
     if (isLeaf(node))
     {
-        replaceChild(node, NULL, NULL, tree);
+        replaceWithNull(node, tree);
         free(node);
     }
     else if ((node->leftChild != NULL) && (node->rightChild == NULL))
     {
-        replaceChild(node, NULL, node->leftChild, tree);
+        setChild(node->leftChild, node->parent, tree);
         free(node);
     }
     else if ((node->leftChild == NULL) && (node->rightChild != NULL))
     {
-        replaceChild(node, NULL, node->rightChild, tree);
+        setChild(node->rightChild, node->parent, tree);
         free(node);
     }
     else
@@ -245,7 +261,6 @@ void printInDescendingOrder(Tree* tree)
 void printSubTreeInRecurentOrder(Node* node)
 {
     printf("(%d ", node->value);
-
     if (node->leftChild != NULL)
     {
         printSubTreeInRecurentOrder(node->leftChild);
@@ -263,7 +278,6 @@ void printSubTreeInRecurentOrder(Node* node)
     {
         printf("null");
     }
-
     printf(") ");
 }
 

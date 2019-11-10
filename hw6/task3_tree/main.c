@@ -27,7 +27,7 @@ int main() {
     delete(2, tree);
     delete(8, tree);
     delete(6, tree);
-    printInAscendingOrder(tree);
+    printInRecurentOrder(tree);
 
     printf("\nI can check if there a something in the tree!\nAsk me about some number:\n");
     int number = 0;
