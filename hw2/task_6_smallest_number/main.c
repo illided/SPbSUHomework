@@ -33,22 +33,15 @@ int main()
 
     // Continue (or starting) building the number after that
 
-    int digitNumber = 0;
-
-    while (digitNumber != 9)
+    for (int digitNumber = 0; digitNumber < 10; digitNumber++)
     {
-        while ((numerals[digitNumber] == 0) && (digitNumber != 9))
+        if (numerals[digitNumber] != 0)
         {
-            digitNumber++;
-        }
-
-        /* Taking the smallest digits that we still have
-         * and building the number. */
-
-        while (numerals[digitNumber] != 0)
-        {
-            result = result * 10 + digitNumber;
-            numerals[digitNumber]--;
+            while (numerals[digitNumber] != 0)
+            {
+                result = result * 10 + digitNumber;
+                numerals[digitNumber]--;
+            }
         }
     }
 
