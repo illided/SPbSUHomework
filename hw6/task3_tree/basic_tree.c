@@ -34,24 +34,22 @@ Node* createNode(int value, Node* parent)
 
 bool isEmpty(Tree* tree)
 {
-    if (tree->root == NULL)
-    {
-        return true;
-    }
-    return false;
+    return tree->root == NULL;
 }
 
 bool isLeaf(Node* node)
 {
-    if ((node->rightChild == NULL) && (node->leftChild == NULL))
-    {
-        return true;
-    }
-    return false;
+    return (node->rightChild == NULL) && (node->leftChild == NULL);
 }
 
 void appendNodeByPointer(int value, Node* node)
 {
+    /* go down the tree from a starting node
+     * (if value of current node is bigger
+     * than added value, then go right
+     * if it less, than go left)
+     * and search a place for a leaf */
+
     if (value > node->value)
     {
         if (node->rightChild != NULL)
@@ -90,6 +88,11 @@ void append(int value, Tree* tree)
 
 Node* findNodeWithValue(int value, Node* node)
 {
+    /* Search for a specific
+     * value in the tree.
+     * If it is found, then returns
+     * a pointer to the node with this value */
+
     if (value > node->value)
     {
         if (node->rightChild != NULL)
@@ -112,6 +115,13 @@ Node* findNodeWithValue(int value, Node* node)
 
 void setChild(Node* child, Node* parent, Tree* tree)
 {
+    /* overwriting the data for child about
+     * it's parent to a given node
+     * and data for appropriate child in parent node
+     * (does not overwrites the data of child's old parent)
+     * (CANT HAVE A NULL FOR A CHILD ARGUMENT)
+     * (works with the root) */
+
     if (parent != NULL)
     {
         if (child->value > parent->value)
@@ -132,6 +142,12 @@ void setChild(Node* child, Node* parent, Tree* tree)
 
 void replaceWithNull(Node* node, Tree* tree)
 {
+    /* set the data about this child in parent
+     * node to NULL
+     * (you have to use function instead of the setChild
+     * function if you want to set NULL child to some node)
+     * (works with the root) */
+
     if (node->parent != NULL)
     {
         if (node->parent->leftChild == node)
@@ -151,6 +167,10 @@ void replaceWithNull(Node* node, Tree* tree)
 
 Node* findMaxNode(Node* node)
 {
+    /* finds the node with the biggest
+     * value in subTree and returns
+     * pointer to this node */
+
     if (node->rightChild == NULL)
     {
         return node;
@@ -160,6 +180,9 @@ Node* findMaxNode(Node* node)
 
 void deleteNodeByPointer(Node* node, Tree* tree)
 {
+    /* deleting a giving node and rearranging the nodes
+     * (works properly with the root) */
+
     if (isLeaf(node))
     {
         replaceWithNull(node, tree);
@@ -185,6 +208,9 @@ void deleteNodeByPointer(Node* node, Tree* tree)
 
 void delete(int value, Tree* tree)
 {
+    /* search for a node with a giving
+     * value and deleting it */
+
     if (isEmpty(tree))
     {
         return;
@@ -198,6 +224,9 @@ void delete(int value, Tree* tree)
 
 bool isInTree(int value, Tree* tree)
 {
+    /* return true if value contains in the tree
+     * false - if it's not */
+
     if (isEmpty(tree))
     {
         return false;
@@ -283,6 +312,8 @@ void printSubTreeInRecurentOrder(Node* node)
 
 void printInRecurentOrder(Tree* tree)
 {
+    /* calls a recurent function
+     * print sub tree for a root */
     if (isEmpty(tree))
     {
         printf("()");
