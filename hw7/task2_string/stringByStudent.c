@@ -64,6 +64,10 @@ char* importStringToArray(String* string)
 
 void concatenateStrings(String* baseString, String* endSubString)
 {
+    /* adding the content of endSubString
+     * to the end of baseString
+     * (don't creates a third string) */
+
     int baseLength = stringLength(baseString);
     int endLength = stringLength(endSubString);
     baseString->content = realloc(baseString->content, sizeof(char) * (baseLength + endLength));
@@ -106,6 +110,7 @@ void readToString(String* string)
 
 String* cloneString(String* string)
 {
+    // returns the string with the data of original string
     String* clonedString = createEmptyString();
     concatenateStrings(clonedString, string);
     return clonedString;
@@ -130,6 +135,11 @@ bool areEqual(String* firstString, String* secondString)
 
 String* getSubString(String* string, int start, int end)
 {
+    /* return the sub string of a given string
+     * (if the start or end point is less or bigger then
+     * an original string than it will be setted to its first
+     * or last character) */
+
     if (start < 0)
     {
         start = 0;
