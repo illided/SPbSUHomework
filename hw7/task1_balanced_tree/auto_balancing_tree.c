@@ -235,36 +235,6 @@ void append(int value, Tree* tree)
     }
 }
 
-Node* findNodeWithValue(int value, Node* node, Tree* tree)
-{
-    /* Search for a specific
-     * value in the tree.
-     * If it is found, then returns
-     * a pointer to the node with this value */
-    Node* output = NULL;
-    if (value > node->value)
-    {
-        if (node->rightChild != NULL)
-        {
-            output = findNodeWithValue(value, node->rightChild, tree);
-        }
-    }
-    else if (value < node->value)
-    {
-        if (node->leftChild != NULL)
-        {
-            output = findNodeWithValue(value, node->leftChild, tree);
-        }
-    }
-    else
-    {
-        output = node;
-    }
-    updateHeight(node);
-    balance(node, tree);
-    return output;
-}
-
 Node* findMaxNode(Node* node)
 {
     /* finds the node with the biggest
@@ -305,6 +275,31 @@ void deleteNodeByPointer(Node* node, Tree* tree)
     }
 }
 
+void findAndDelete(int value, Node* node, Tree* tree)
+{
+    if (value > node->value)
+    {
+        if (node->rightChild != NULL)
+        {
+            findAndDelete(value, node->rightChild, tree);
+        }
+    }
+    else if (value < node->value)
+    {
+        if (node->leftChild != NULL)
+        {
+            findAndDelete(value, node->leftChild, tree);
+        }
+    }
+    else if (value == node->value)
+    {
+        deleteNodeByPointer(node, tree);
+        return;
+    }
+    updateHeight(node);
+    balance(node, tree);
+}
+
 void delete(int value, Tree* tree)
 {
     /* search for a node with a giving
@@ -314,12 +309,35 @@ void delete(int value, Tree* tree)
     {
         return;
     }
-    Node* deletedNode = findNodeWithValue(value, tree->root, tree);
-    if (deletedNode != NULL)
-    {
-        deleteNodeByPointer(deletedNode, tree);
-    }
+    findAndDelete(value, tree->root, tree);
+}
 
+Node* findNodeWithValue(int value, Node* node, Tree* tree)
+{
+    /* Search for a specific
+     * value in the tree.
+     * If it is found, then returns
+     * a pointer to the node with this value */
+    Node* output = NULL;
+    if (value > node->value)
+    {
+        if (node->rightChild != NULL)
+        {
+            output = findNodeWithValue(value, node->rightChild, tree);
+        }
+    }
+    else if (value < node->value)
+    {
+        if (node->leftChild != NULL)
+        {
+            output = findNodeWithValue(value, node->leftChild, tree);
+        }
+    }
+    else
+    {
+        output = node;
+    }
+    return output;
 }
 
 bool isInTree(int value, Tree* tree)
@@ -340,15 +358,15 @@ bool isInTree(int value, Tree* tree)
 
 void printSubTreeInAscendingOrder(Node* node)
 {
-   if (node->leftChild != NULL)
-   {
-       printSubTreeInAscendingOrder(node->leftChild);
-   }
-   printf("%d ", node->value);
-   if (node->rightChild != NULL)
-   {
-       printSubTreeInAscendingOrder(node->rightChild);
-   }
+    if (node->leftChild != NULL)
+    {
+        printSubTreeInAscendingOrder(node->leftChild);
+    }
+    printf("%d ", node->value);
+    if (node->rightChild != NULL)
+    {
+        printSubTreeInAscendingOrder(node->rightChild);
+    }
 }
 
 void printInAscendingOrder(Tree* tree)
@@ -430,4 +448,3 @@ void burnTheTree(Tree* tree)
     }
     free(tree);
 }
-

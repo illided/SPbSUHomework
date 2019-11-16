@@ -16,5 +16,6 @@ int main() {
         printInRecurentOrder(tree);
         printf("\n");
     }
+    burnTheTree(tree);
     return 0;
 }
