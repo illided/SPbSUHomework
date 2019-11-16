@@ -317,17 +317,7 @@ void delete(int value, Tree* tree)
     Node* deletedNode = findNodeWithValue(value, tree->root, tree);
     if (deletedNode != NULL)
     {
-        if (deletedNode->parent != NULL)
-        {
-            int additionalValue = deletedNode->parent->value;
-            deleteNodeByPointer(deletedNode, tree);
-            findNodeWithValue(additionalValue, tree->root, tree);
-            // updating the tree after deleting
-        }
-        else
-        {
-            deleteNodeByPointer(deletedNode, tree);
-        }
+        deleteNodeByPointer(deletedNode, tree);
     }
 
 }
