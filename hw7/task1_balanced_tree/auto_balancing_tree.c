@@ -241,26 +241,28 @@ Node* findNodeWithValue(int value, Node* node, Tree* tree)
      * value in the tree.
      * If it is found, then returns
      * a pointer to the node with this value */
-
+    Node* output = NULL;
     if (value > node->value)
     {
         if (node->rightChild != NULL)
         {
-            return findNodeWithValue(value, node->rightChild, tree);
+            output = findNodeWithValue(value, node->rightChild, tree);
         }
-            return NULL;
     }
     else if (value < node->value)
     {
         if (node->leftChild != NULL)
         {
-            return findNodeWithValue(value, node->leftChild, tree);
+            output = findNodeWithValue(value, node->leftChild, tree);
         }
-            return NULL;
+    }
+    else
+    {
+        output = node;
     }
     updateHeight(node);
     balance(node, tree);
-    return node;
+    return output;
 }
 
 Node* findMaxNode(Node* node)
@@ -280,7 +282,6 @@ void deleteNodeByPointer(Node* node, Tree* tree)
 {
     /* deleting a giving node and rearranging the nodes
      * (works properly with the root) */
-
     if (isLeaf(node))
     {
         replaceWithNull(node, tree);
@@ -316,8 +317,19 @@ void delete(int value, Tree* tree)
     Node* deletedNode = findNodeWithValue(value, tree->root, tree);
     if (deletedNode != NULL)
     {
-        deleteNodeByPointer(deletedNode, tree);
+        if (deletedNode->parent != NULL)
+        {
+            int additionalValue = deletedNode->parent->value;
+            deleteNodeByPointer(deletedNode, tree);
+            findNodeWithValue(additionalValue, tree->root, tree);
+            // updating the tree after deleting
+        }
+        else
+        {
+            deleteNodeByPointer(deletedNode, tree);
+        }
     }
+
 }
 
 bool isInTree(int value, Tree* tree)

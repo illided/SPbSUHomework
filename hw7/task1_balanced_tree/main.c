@@ -3,7 +3,7 @@
 
 int main() {
     Tree* tree = createTree();
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 12; i++)
     {
         append(i, tree);
         printInRecurentOrder(tree);
