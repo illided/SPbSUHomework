@@ -174,7 +174,7 @@ int calculateFromRPNString(char* input)
     {
         if (isdigit(input[charPos]))
         {
-            numberBuffer = 10 * numberBuffer + (int) (input[charPos] - '0');
+            numberBuffer = 10 * numberBuffer + (int)(input[charPos] - '0');
             bufferIsEmpty = false;
         }
         else if (isOperation(input[charPos]))
@@ -186,7 +186,7 @@ int calculateFromRPNString(char* input)
             }
             int secondNumber = popInt(numbers);
             int firstNumber = popInt(numbers);
-            if ((secondNumber == 0) || (input[charPos] == '/'))
+            if ((secondNumber == 0) && (input[charPos] == '/'))
             {
                 printf("Incorrect input (tried to divide by zero)\n");
                 return 0;
@@ -214,7 +214,8 @@ int calculateFromRPNString(char* input)
     return result;
 }
 
-int main() {
+int main()
+{
     printf("I am the calculator!\nEnter the string in the standart "
            "notation and you'll get the answer\n");
     char* input = getString();
