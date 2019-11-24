@@ -25,7 +25,8 @@ void printSplitting(int *array, int number)
     printf(" = %d\n", number);
 }
 
-int main() {
+int main()
+{
     int number = 0;
     printf("Enter the number: \n");
     scanf("%d", &number);
