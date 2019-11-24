@@ -12,8 +12,6 @@ void append(int value, circularList* list);
 void setRootToNext(circularList* list);
 int getValueFromRoot(circularList* list);
 int size(circularList* list);
-void delete(circularList* list);
-
-
+void deleteRootElement(circularList* list);
 
 #endif

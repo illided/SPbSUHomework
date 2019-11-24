@@ -2,7 +2,8 @@
 #include "circularList.h"
 #include <stdlib.h>
 
-int main() {
+int main()
+{
     int numOfKnights = 0;
     int killedNumber = 0;
     circularList* circle = createCircularList();
@@ -25,12 +26,12 @@ int main() {
         {
             setRootToNext(circle);
         }
-        delete(circle);
+        deleteRootElement(circle);
         numOfKnights--;
     }
 
     printf("Surviving knight position:\n%d", getValueFromRoot(circle));
-    delete(circle);
+    deleteRootElement(circle);
     free(circle);
     return 0;
 }

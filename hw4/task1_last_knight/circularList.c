@@ -56,7 +56,7 @@ int size(circularList* list)
     return list->size;
 }
 
-void delete(circularList* list)
+void deleteRootElement(circularList* list)
 {
     if (list->size == 0)
     {
@@ -72,4 +72,3 @@ void delete(circularList* list)
     pointer->next = list->root;
     list->size--;
 }
-
