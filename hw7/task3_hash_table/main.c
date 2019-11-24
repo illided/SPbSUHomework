@@ -25,8 +25,7 @@ void readWordFromFileToArray(FILE* file, char* oldString, int size)
     {
         if (size == length)
         {
-            size += 5;
-            oldString = realloc(oldString, sizeof(char) * size);
+            return;
         }
         oldString[length] = input;
         length++;
@@ -58,6 +57,7 @@ void increment(String* string)
     numRepresentation++;
     sprintf(array, "%d", numRepresentation);
     rewriteString(string, array);
+    free(array);
 }
 
 int main()
