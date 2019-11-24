@@ -191,7 +191,7 @@ String* getFromHashTable(String* keyString, HashTable* hashTable)
     HashLine* hashLine = searchForLine(keyString, hashTable);
     if (hashLine != NULL)
     {
-        return hashLine->contentString;
+        return cloneString(hashLine->contentString);
     }
     return NULL;
 }
@@ -204,6 +204,13 @@ void deleteFromHashTable(String* keyString, HashTable* hashTable)
         hashLine->isDeleted = true;
         hashTable->loaded--;
     }
+}
+
+void changeLineInHashTable(String* keyString, String* newContentString, HashTable* hashTable)
+{
+    HashLine* oldLine = searchForLine(keyString, hashTable);
+    deleteString(oldLine->contentString);
+    oldLine->contentString = cloneString(newContentString);
 }
 
 void printHashTableContent(HashTable* hashTable)

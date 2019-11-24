@@ -18,5 +18,6 @@ bool areEqual(String* firstString, String* secondString);
 void readToString(String* string);
 String* getSubString(String* string, int start, int end);
 bool isEmptyString(String* string);
+void rewriteString(String* string, char* array);
 
 #endif

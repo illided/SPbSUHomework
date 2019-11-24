@@ -167,4 +167,19 @@ String* getSubString(String* string, int start, int end)
     return getStringFromArray(subStringContent);
 }
 
+void rewriteString(String* string, char* array)
+{
+    free(string->content);
+    int stringLength = 0;
+    while (array[stringLength] != '\0')
+    {
+        stringLength++;
+    }
+    string->length = stringLength;
+    string->content = malloc(sizeof(char) * stringLength);
+    for (int i = 0; i < stringLength; i++)
+    {
+        string->content[i] = array[i];
+    }
+}
 
