@@ -4,22 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-const bool showTheAnswer = false; //change to true if you want the answer to be shown at the start of the game
-const int maxSize = 80;  // maxSize > 11 because user can enter the bigger string
-
-int raiseToThePower(int number, int power)
-{
-    if (power == 0)
-    {
-        return 1;
-    }
-    if (power % 2 == 0)
-    {
-        int squareRootOfTargetNumber = raiseToThePower(number, power / 2);
-        return squareRootOfTargetNumber * squareRootOfTargetNumber;
-    }
-    return number * raiseToThePower(number, power - 1);
-}
+const bool showTheAnswer = false; // change to true if you want the answer to be shown at the start of the game
+const int maxSize = 80; // maxSize > 11 because user can enter the bigger string
 
 char* createString(int stringLength)
 {
@@ -132,7 +118,7 @@ int main() {
        numOfTries++;
        printf("Bulls:%d Cows:%d Tries:%d\n", bulls, cows, numOfTries);
     }
-    while (bulls != numOfDigits);  // and do it till guess == guessed number
+    while (bulls != numOfDigits); // and do it till guess == guessed number
     printf("You win!!! (you guessed %d times)", numOfTries);
 
     free(guessedNumber);
