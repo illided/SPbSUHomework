@@ -7,7 +7,8 @@ const int maxSize = 10000;
 
 bool isEmpty(char input[])
 {
-    for (int i = 0; i < strlen(input); i++)
+    int inputLength = strlen(input);
+    for (int i = 0; i < inputLength; i++)
     {
         if ((input[i] != '\t') && (input[i] != ' ') && (input[i] != '\n'))
         {
@@ -17,12 +18,13 @@ bool isEmpty(char input[])
     return true;
 }
 
-int main() {
+int main() 
+{
     FILE* file = fopen("file.txt", "r");
     if (file == NULL)
     {
         printf("Something went wrong");
-        return 0;
+        return -1;
     }
     rewind(file);
     char* input = malloc(sizeof(char) * maxSize);
