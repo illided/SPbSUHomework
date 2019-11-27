@@ -48,7 +48,7 @@ void printSearchResult(String *nameString, String *phoneString)
     printf("\n");
 }
 
-int main()
+FILE *openPhoneBook()
 {
     FILE *phonebook = fopen("phonebook.txt", "r");  // opening the file or creating it
     if (phonebook == NULL)
@@ -59,23 +59,29 @@ int main()
         phonebook = fopen("phonebook.txt", "r");
     }
     rewind(phonebook);
+    return phonebook;
+}
+
+int main()
+{
+    FILE *phoneBook = openPhoneBook();
 
     HashTable *numberByNameBook = createHashTable(20);
     HashTable *nameByNumberBook = createHashTable(20);
     String *nameString = createEmptyString();
     String *phoneString = createEmptyString();
 
-    while (!feof(phonebook))  // loading tables from file
+    while (!feof(phoneBook))  // loading tables from file
     {
-        readToStringFromFile(nameString, phonebook);
-        readToStringFromFile(phoneString, phonebook);
+        readToStringFromFile(nameString, phoneBook);
+        readToStringFromFile(phoneString, phoneBook);
         if (!isReadableEmpty(nameString) && !isReadableEmpty(phoneString))
         {
             pushToHashTable(nameString, phoneString, numberByNameBook);
             pushToHashTable(phoneString, nameString, nameByNumberBook);
         }
     }
-    fclose(phonebook);
+    fclose(phoneBook);
 
     printf("Hello! I am an interactive phone book. To work\n"
            "with me you need to first enter the operation number,\n"
@@ -83,8 +89,8 @@ int main()
            "1: add entry (name, ENTER, phone number)\n"
            "2: search name by number\n"
            "3: search number by name\n"
-           "4: save your phonebook\n"
-           "0: close phonebook\n");
+           "4: save your phone book\n"
+           "0: close phone book\n");
     int operation = -1;
     while (operation != 0)
     {
@@ -122,15 +128,15 @@ int main()
                 }
                 break;
             case 4:
-                phonebook = fopen("phonebook.txt", "w");
-                if (phonebook == NULL)
+                phoneBook = fopen("phonebook.txt", "w");
+                if (phoneBook == NULL)
                 {
                     printf("Cant open or create file\n");
                     break;
                 }
-                printHashTableContentToFile(numberByNameBook, phonebook);
-                printf("Phonebook was saved to the file!\n");
-                fclose(phonebook);
+                printHashTableContentToFile(numberByNameBook, phoneBook);
+                printf("Phone book was saved to the file!\n");
+                fclose(phoneBook);
                 break;
         }
     }
