@@ -71,7 +71,6 @@ char *importStringToArray(String *string)
     char *output = malloc(sizeof(char) * outputArrayLength);
     for (int i = 0; i < outputArrayLength; i++)
     {
-        output[i] = ' ';
         output[i] = string->content[i];
     }
     output[outputArrayLength - 1] = '\0';
@@ -179,6 +178,10 @@ String *getSubString(String *string, int start, int end)
      * an original string than it will be setted to its first
      * or last character) */
 
+    if (string == NULL)
+    {
+        return NULL;
+    }
     if (start < 0)
     {
         start = 0;
