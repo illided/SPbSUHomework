@@ -5,12 +5,12 @@
 #include <ctype.h>
 #include "simpleArrays.h"
 
-const int numOfOperations = 4;
-char operations[4] = {'+', '-', '*', '/'};
-int priorities[4]  = { 1,   1,   2,   2};
-
 int getPriority(char operation)
 {
+    int numOfOperations = 4;
+    char operations[4] = {'+', '-', '*', '/'};
+    int priorities[4] = {1, 1, 2, 2};
+
     for (int i = 0; i < numOfOperations; i++)
     {
         if (operation == operations[i])
@@ -21,13 +21,13 @@ int getPriority(char operation)
     return 0;
 }
 
-char* getString()
+char *getString()
 {
     /* gets a string from stdin with
      * random size */
     int maxSize = 5;
     int stringLength = 0;
-    char* output = createString(maxSize);
+    char *output = createString(maxSize);
     char input = ' ';
 
     scanf("%c", &input);
@@ -46,11 +46,26 @@ char* getString()
     return output;
 }
 
-char* convertRPN(char* input)
+bool isInputCorrect(char input)
+{
+    int numOfOperations = 4;
+    char operations[4] = {'+', '-', '*', '/'};
+    bool inputIsCorrect = false;
+    for (int i = 0; i < numOfOperations; i++)
+    {
+        if (input == operations[i])
+        {
+            inputIsCorrect = true;
+        }
+    }
+    return inputIsCorrect || isdigit(input) || (input == '(') || (input == ')');
+}
+
+char *convertRPN(char *input)
 {
     int outputLength = 0;
     char *output = createString(2 * strlen(input));
-    Stack* specialCharsStack = createStack();
+    Stack *specialCharsStack = createStack();
     for (int currentChar = 0; input[currentChar] != '\0'; currentChar++)
     {
         /* skipping all the spaces */
@@ -62,25 +77,16 @@ char* convertRPN(char* input)
         /* checking if the input is correct
          * (dont contain any other characters
          * than digits or operations)*/
-        bool inputIsCorrect = false;
-        for (int i = 0; i < numOfOperations; i++)
-        {
-            if (input[currentChar] == operations[i])
-            {
-                inputIsCorrect = true;
-            }
-        }
-        inputIsCorrect = inputIsCorrect + isdigit(input[currentChar]) + (input[currentChar] == '(') +
-                (input[currentChar] == ')');
-        if (!inputIsCorrect)
+
+        if (!isInputCorrect(input[currentChar]))
         {
             printf("Input is incorrect (non correct characters)");
             return NULL;
         }
 
         if (isdigit(input[currentChar]))
-        /* if next token is a digit then
-         * send it to the output*/
+            /* if next token is a digit then
+             * send it to the output*/
         {
             output[outputLength] = input[currentChar];
             /* if next token is not a digit then
@@ -123,7 +129,8 @@ char* convertRPN(char* input)
              * add it to the stack
              * 2) else add top of the stack to output and repeat */
             int currentOperationPriority = getPriority(input[currentChar]);
-            while ((peek(specialCharsStack) != '(') &&(currentOperationPriority <= getPriority(peek(specialCharsStack))))
+            while ((peek(specialCharsStack) != '(') &&
+                   (currentOperationPriority <= getPriority(peek(specialCharsStack))))
             {
                 output[outputLength] = pop(specialCharsStack);
                 output[outputLength + 1] = ' ';
@@ -140,14 +147,18 @@ char* convertRPN(char* input)
         outputLength += 2;
     }
     output[outputLength] = '\0';
+    deleteStack(specialCharsStack);
+
     return output;
 }
 
 int main()
 {
-   printf("Enter the string of numbers and operations:\n");
-   char* input = getString();
-   printf("String in reverse polish notation:\n%s", convertRPN(input));
-   free(input);
-   return 0;
+    printf("Enter the string of numbers and operations:\n");
+    char *input = getString();
+    char *output = convertRPN(input);
+    printf("String in reverse polish notation:\n%s", output);
+    free(input);
+    free(output);
+    return 0;
 }

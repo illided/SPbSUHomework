@@ -14,5 +14,6 @@ void append(char value, Stack* stack);
 char pop(Stack* stack);
 char peek(Stack* stack);
 bool isEmpty(Stack* stack);
+void deleteStack(Stack* stack);
 
 #endif

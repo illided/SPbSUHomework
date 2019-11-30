@@ -4,47 +4,52 @@
 struct StackElement
 {
     char value;
-    StackElement* next;
+    StackElement *next;
 };
 
 struct Stack
 {
-    StackElement* head;
+    StackElement *head;
 };
 
-Stack* createStack()
+Stack *createStack()
 {
-    Stack* newStack = malloc(sizeof(Stack));
+    Stack *newStack = malloc(sizeof(Stack));
     newStack->head = NULL;
+    return newStack;
 }
 
-void append(char value, Stack* stack)
+void append(char value, Stack *stack)
 {
-    StackElement* newElement = malloc(sizeof(StackElement));
+    if (stack == NULL)
+    {
+        return;
+    }
+    StackElement *newElement = malloc(sizeof(StackElement));
     newElement->value = value;
     newElement->next = stack->head;
     stack->head = newElement;
 }
 
-char pop(Stack* stack)
+char pop(Stack *stack)
 {
-    if (stack->head == NULL)
+    if ((stack == NULL) || (stack->head == NULL))
     {
         return 0;
     }
-    StackElement* deletedElement = stack->head;
+    StackElement *deletedElement = stack->head;
     stack->head = deletedElement->next;
     char value = deletedElement->value;
     free(deletedElement);
     return value;
 }
 
-bool isEmpty(Stack* stack)
+bool isEmpty(Stack *stack)
 {
     return stack->head == NULL;
 }
 
-char peek(Stack* stack)
+char peek(Stack *stack)
 {
     if (isEmpty(stack))
     {
@@ -53,3 +58,24 @@ char peek(Stack* stack)
     return stack->head->value;
 }
 
+void recursiveDelete(StackElement *stackElement)
+{
+    if (stackElement->next != NULL)
+    {
+        recursiveDelete(stackElement->next);
+    }
+    free(stackElement);
+}
+
+void deleteStack(Stack *stack)
+{
+    if (stack == NULL)
+    {
+        return;
+    }
+    if (stack->head != NULL)
+    {
+        recursiveDelete(stack->head);
+    }
+    free(stack);
+}

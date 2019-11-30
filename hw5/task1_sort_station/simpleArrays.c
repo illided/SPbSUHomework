@@ -1,10 +1,9 @@
-#include "simpleArrays.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-char* createString(int stringLength)
+char *createString(int stringLength)
 {
-    char* localString = malloc(sizeof(char) * stringLength);
+    char *localString = malloc(sizeof(char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -12,9 +11,9 @@ char* createString(int stringLength)
     return localString;
 }
 
-unsigned char* createUnsignedString(int stringLength)
+unsigned char *createUnsignedString(int stringLength)
 {
-    unsigned char* localString = malloc(sizeof(unsigned char) * stringLength);
+    unsigned char *localString = malloc(sizeof(unsigned char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -24,7 +23,7 @@ unsigned char* createUnsignedString(int stringLength)
 
 int *createArrayOfInt(int arrayLength)
 {
-    int* arrayOfInt = malloc(sizeof(int) * arrayLength);
+    int *arrayOfInt = malloc(sizeof(int) * arrayLength);
     for (int i = 0; i < arrayLength; i++)
     {
         arrayOfInt[i] = 0;
