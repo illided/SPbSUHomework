@@ -6,9 +6,9 @@
 
 const int maxSize = 1000;
 
-char* createArray(int stringLength)
+char *createArray(int stringLength)
 {
-    char* localString = malloc(sizeof(char) * stringLength);
+    char *localString = malloc(sizeof(char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -16,7 +16,7 @@ char* createArray(int stringLength)
     return localString;
 }
 
-void readWordFromFileToArray(FILE* file, char* oldString, int size)
+void readWordFromFileToArray(FILE *file, char *oldString, int size)
 {
     int length = 0;
     char input = ' ';
@@ -34,7 +34,7 @@ void readWordFromFileToArray(FILE* file, char* oldString, int size)
     oldString[length] = '\0';
 }
 
-void formatArrayOfChar(char* input)
+void formatArrayOfChar(char *input)
 {
     for (int i = 0; input[i] != '\0'; i++)
     {
@@ -50,9 +50,9 @@ void formatArrayOfChar(char* input)
     }
 }
 
-void increment(String* string)
+void increment(String *string)
 {
-    char* array = importStringToArray(string);
+    char *array = importStringToArray(string);
     int numRepresentation = strtol(array, NULL, 10);
     numRepresentation++;
     sprintf(array, "%d", numRepresentation);
@@ -62,7 +62,7 @@ void increment(String* string)
 
 int main()
 {
-    FILE* text = fopen("file.txt", "r");
+    FILE *text = fopen("file.txt", "r");
     if (text == NULL)
     {
         printf("Something went wrong");
@@ -70,10 +70,10 @@ int main()
     }
 
     rewind(text);
-    char* input = createArray(maxSize);
-    HashTable* hashTable = createHashTable(20);
-    String* keyString = createEmptyString();
-    String* contentString = createEmptyString();
+    char *input = createArray(maxSize);
+    HashTable *hashTable = createHashTable(50);
+    String *keyString = createEmptyString();
+    String *contentString = createEmptyString();
 
     while (!feof(text))
     {
@@ -96,7 +96,7 @@ int main()
             }
         }
     }
-    printHashTableContent(hashTable);
+    printHashTableContentToFile(hashTable, stdout);
     printHashTableInfo(hashTable);
 
     fclose(text);

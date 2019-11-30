@@ -14,9 +14,7 @@ String* getFromHashTable(String* keyString, HashTable* hashTable);
 void deleteFromHashTable(String* keyString, HashTable* hashTable);
 void changeLineInHashTable(String* keyString, String* newContentString, HashTable* hashTable);
 bool setMaxLoadFactor(double newMaxLoadFactor, HashTable* hashTable);
-void printHashTableContent(HashTable* hashTable);
+void printHashTableContentToFile(HashTable* hashTable, FILE* file);
 void printHashTableInfo(HashTable* hashTable);
-String** dumpHashTable(HashTable* hashTable);
-
 
 #endif

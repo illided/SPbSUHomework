@@ -5,16 +5,25 @@
 
 struct HashLine
 {
-    String* keyString;
-    String* contentString;
+    String *keyString;
+    String *contentString;
     int insertTries;
     bool isDeleted;
 };
+
 typedef struct HashLine HashLine;
 
-HashLine* createHashLine(String* keyString, String* contentString)
+HashLine *createHashLine(String *keyString, String *contentString)
 {
-    HashLine* hashLine = malloc(sizeof(HashLine));
+    /* This function creates hashline
+     * and as you can see hashline can have NULL as a
+     * content but can't have NULL as a key */
+
+    if (keyString == NULL)
+    {
+        return NULL;
+    }
+    HashLine *hashLine = malloc(sizeof(HashLine));
     hashLine->keyString = cloneString(keyString);
     hashLine->contentString = cloneString(contentString);
     hashLine->insertTries = 0;
@@ -22,43 +31,50 @@ HashLine* createHashLine(String* keyString, String* contentString)
     return hashLine;
 }
 
-void deleteHashLine(HashLine* hashLine)
+void deleteHashLine(HashLine *hashLine)
 {
-    deleteString(hashLine->keyString);
-    deleteString(hashLine->contentString);
-    free(hashLine);
+    if (hashLine != NULL)
+    {
+        deleteString(hashLine->keyString);
+        deleteString(hashLine->contentString);
+        free(hashLine);
+    }
 }
 
-HashLine* copyHashLine(HashLine* hashLine)
+HashLine *copyHashLine(HashLine *hashLine)
 {
-    HashLine* newHashLine = createHashLine(hashLine->keyString, hashLine->contentString);
+    if (hashLine == NULL)
+    {
+        return NULL;
+    }
+    HashLine *newHashLine = createHashLine(hashLine->keyString, hashLine->contentString);
     return newHashLine;
 }
 
-bool isExist(HashLine* hashLine)
+bool isExist(HashLine *hashLine)
 {
     return (hashLine != NULL) && (!hashLine->isDeleted);
 }
 
 struct HashTable
 {
-    HashLine** arrayOfLines;
+    HashLine **arrayOfLines;
     int size;
     int loaded;
     double maxLoadFactor;
 };
 
-HashTable* createHashTable(int startSize)
+HashTable *createHashTable(int startSize)
 {
     if (startSize <= 0)
     {
         return NULL;
     }
-    HashTable* hashTable = malloc(sizeof(HashTable));
+    HashTable *hashTable = malloc(sizeof(HashTable));
     hashTable->size = startSize;
     hashTable->loaded = 0;
     hashTable->maxLoadFactor = 0.70;
-    hashTable->arrayOfLines = malloc(sizeof(HashLine*) * startSize);
+    hashTable->arrayOfLines = malloc(sizeof(HashLine *) * startSize);
     for (int i = 0; i < startSize; i++)
     {
         hashTable->arrayOfLines[i] = NULL;
@@ -66,8 +82,12 @@ HashTable* createHashTable(int startSize)
     return hashTable;
 }
 
-void deleteHashTable(HashTable* hashTable)
+void deleteHashTable(HashTable *hashTable)
 {
+    if (hashTable == NULL)
+    {
+        return;
+    }
     for (int i = 0; i < hashTable->size; i++)
     {
         if (hashTable->arrayOfLines[i] != NULL)
@@ -75,12 +95,13 @@ void deleteHashTable(HashTable* hashTable)
             deleteHashLine(hashTable->arrayOfLines[i]);
         }
     }
+    free(hashTable->arrayOfLines);
     free(hashTable);
 }
 
-bool setMaxLoadFactor(double newMaxLoadFactor, HashTable* hashTable)
+bool setMaxLoadFactor(double newMaxLoadFactor, HashTable *hashTable)
 {
-    if (newMaxLoadFactor <= 0.90)
+    if ((newMaxLoadFactor <= 0.90) && (hashTable != NULL))
     {
         hashTable->maxLoadFactor = newMaxLoadFactor;
         return true;
@@ -88,9 +109,13 @@ bool setMaxLoadFactor(double newMaxLoadFactor, HashTable* hashTable)
     return false;
 }
 
-int getHash(String* keyString, int base)
+int getHash(String *keyString, int base)
 {
-    char* array = importStringToArray(keyString);
+    if ((keyString == NULL) || (base < 1))
+    {
+        return 0;
+    }
+    char *array = importStringToArray(keyString);
     int output = 0;
     for (int currentChar = 0; array[currentChar] != '\0'; currentChar++)
     {
@@ -100,13 +125,18 @@ int getHash(String* keyString, int base)
     return output;
 }
 
-HashLine* searchForLine(String* keyString, HashTable* hashTable)
+HashLine *searchForLine(String *keyString, HashTable *hashTable)
 {
+    if ((hashTable == NULL) || (keyString == NULL))
+    {
+        return NULL;
+    }
     int hash = getHash(keyString, hashTable->size);
     int tries = 0;
     while (hashTable->arrayOfLines[hash] != NULL)
     {
-        if (!hashTable->arrayOfLines[hash]->isDeleted && (areEqual(hashTable->arrayOfLines[hash]->keyString, keyString)))
+        if (!hashTable->arrayOfLines[hash]->isDeleted &&
+            (areEqual(hashTable->arrayOfLines[hash]->keyString, keyString)))
         {
             return hashTable->arrayOfLines[hash];
         }
@@ -116,8 +146,12 @@ HashLine* searchForLine(String* keyString, HashTable* hashTable)
     return NULL;
 }
 
-void pushHashLine(HashLine* hashLine, HashLine** arrayOfLines, int base)
+void pushHashLine(HashLine *hashLine, HashLine **arrayOfLines, int base)
 {
+    if ((hashLine == NULL) || (arrayOfLines == NULL))
+    {
+        return;
+    }
     int hash = getHash(hashLine->keyString, base);
     int tries = 0;
     while (isExist(arrayOfLines[hash]))
@@ -137,20 +171,23 @@ void pushHashLine(HashLine* hashLine, HashLine** arrayOfLines, int base)
     arrayOfLines[hash] = hashLine;
 }
 
-void expand(HashTable* hashTable)
+void expand(HashTable *hashTable)
 {
+    if (hashTable == NULL)
+    {
+        return;
+    }
     int newSize = hashTable->size * 2;
-    HashLine** newArray = malloc(sizeof(HashLine*) * newSize);
+    HashLine **newArray = malloc(sizeof(HashLine *) * newSize);
     for (int i = 0; i < newSize; i++)
     {
         newArray[i] = NULL;
     }
     for (int i = 0; i < hashTable->size; i++)
     {
-        int tries = 0;
         if (isExist(hashTable->arrayOfLines[i]))
         {
-            HashLine* newHashLine = copyHashLine(hashTable->arrayOfLines[i]);
+            HashLine *newHashLine = copyHashLine(hashTable->arrayOfLines[i]);
             pushHashLine(newHashLine, newArray, newSize);
         }
     }
@@ -161,34 +198,43 @@ void expand(HashTable* hashTable)
             deleteHashLine(hashTable->arrayOfLines[i]);
         }
     }
+    free(hashTable->arrayOfLines);
     hashTable->arrayOfLines = newArray;
     hashTable->size = newSize;
 }
 
-bool isInTable(String* keyString, HashTable* hashTable)
+bool isInTable(String *keyString, HashTable *hashTable)
 {
     return searchForLine(keyString, hashTable) != NULL;
 }
 
-void pushToHashTable(String* keyString, String* contentString, HashTable* hashTable)
+void pushToHashTable(String *keyString, String *contentString, HashTable *hashTable)
 {
-    if (isInTable(keyString, hashTable))
+    /* creates a hashline and adds it to the table, then updates the
+     * load factor and extends the table if necessary. Note that
+     * the content string may be NULL and the key must exist */
+
+    if ((keyString == NULL) || (hashTable == NULL) || (isInTable(keyString, hashTable)))
     {
         return;
     }
-    HashLine* newHashLine = createHashLine(keyString, contentString);
+    HashLine *newHashLine = createHashLine(keyString, contentString);
     pushHashLine(newHashLine, hashTable->arrayOfLines, hashTable->size);
     hashTable->loaded++;
-    double loadFactor = (double)(hashTable->loaded) / (double)(hashTable->size);
+    double loadFactor = (double) (hashTable->loaded) / (double) (hashTable->size);
     if (loadFactor > hashTable->maxLoadFactor)
     {
         expand(hashTable);
     }
 }
 
-String* getFromHashTable(String* keyString, HashTable* hashTable)
+String *getFromHashTable(String *keyString, HashTable *hashTable)
 {
-    HashLine* hashLine = searchForLine(keyString, hashTable);
+    if ((hashTable == NULL) || (keyString == NULL))
+    {
+        return NULL;
+    }
+    HashLine *hashLine = searchForLine(keyString, hashTable);
     if (hashLine != NULL)
     {
         return cloneString(hashLine->contentString);
@@ -196,9 +242,13 @@ String* getFromHashTable(String* keyString, HashTable* hashTable)
     return NULL;
 }
 
-void deleteFromHashTable(String* keyString, HashTable* hashTable)
+void deleteFromHashTable(String *keyString, HashTable *hashTable)
 {
-    HashLine* hashLine = searchForLine(keyString, hashTable);
+    if ((keyString == NULL) || (hashTable == NULL))
+    {
+        return;
+    }
+    HashLine *hashLine = searchForLine(keyString, hashTable);
     if (hashLine != NULL)
     {
         hashLine->isDeleted = true;
@@ -206,34 +256,48 @@ void deleteFromHashTable(String* keyString, HashTable* hashTable)
     }
 }
 
-void changeLineInHashTable(String* keyString, String* newContentString, HashTable* hashTable)
+void changeLineInHashTable(String *keyString, String *newContentString, HashTable *hashTable)
 {
-    HashLine* oldLine = searchForLine(keyString, hashTable);
+    if ((keyString == NULL) || (hashTable == NULL))
+    {
+        return;
+    }
+    HashLine *oldLine = searchForLine(keyString, hashTable);
     deleteString(oldLine->contentString);
     oldLine->contentString = cloneString(newContentString);
 }
 
-void printHashTableContent(HashTable* hashTable)
+void printHashTableContentToFile(HashTable *hashTable, FILE *file)
 {
-    char* keyArray = NULL;
-    char* contentArray = NULL;
+    if (hashTable == NULL)
+    {
+        printf("Hashtable doesn't exist");
+        return;
+    }
+    if (file == NULL)
+    {
+        return;
+    }
     for (int i = 0; i < hashTable->size; i++)
     {
         if (isExist(hashTable->arrayOfLines[i]))
         {
-            keyArray = importStringToArray(hashTable->arrayOfLines[i]->keyString);
-            printf("%s ", keyArray);
-            free(keyArray);
-            contentArray = importStringToArray(hashTable->arrayOfLines[i]->contentString);
-            printf("%s\n", contentArray);
-            free(contentArray);
+            printStringToFile(hashTable->arrayOfLines[i]->keyString, file);
+            fprintf(file, "\n");
+            printStringToFile(hashTable->arrayOfLines[i]->contentString, file);
+            fprintf(file, "\n");
         }
     }
 }
 
-void printHashTableInfo(HashTable* hashTable)
+void printHashTableInfo(HashTable *hashTable)
 {
-    HashLine* maxCollisionLine = NULL;
+    if (hashTable == NULL)
+    {
+        printf("Hashtable doesn't exist");
+        return;
+    }
+    HashLine *maxCollisionLine = NULL;
     int maxCollision = 0;
     int collisions = 0;
     for (int i = 0; i < hashTable->size; i++)
@@ -250,34 +314,14 @@ void printHashTableInfo(HashTable* hashTable)
     }
     printf("Table size: %d\n", hashTable->size);
     printf("Lines available: %d\n", hashTable->size - hashTable->loaded);
-    printf("Load factor: %f\n", (double)(hashTable->loaded) / (double)(hashTable->size));
-    printf("Average collision factor: %f\n", (double)(collisions) / (double)(hashTable->loaded));
+    printf("Load factor: %f\n", (double) (hashTable->loaded) / (double) (hashTable->size));
+    printf("Average collision factor: %f\n", (double) (collisions) / (double) (hashTable->loaded));
     if (maxCollisionLine != NULL)
     {
-        char* tempKeyArray = importStringToArray(maxCollisionLine->keyString);
-        char* tempContentArray = importStringToArray(maxCollisionLine->contentString);
-        printf("Line with the biggest collision factor: %s %s (collision factor: %d)\n",
-                tempKeyArray, tempContentArray, maxCollisionLine->insertTries);
-        free(tempContentArray);
-        free(tempKeyArray);
+        printf("Line with the biggest collision factor:\n");
+        printStringToFile(maxCollisionLine->keyString, stdout);
+        printf(" ");
+        printStringToFile(maxCollisionLine->contentString, stdout);
+        printf(" (collision factor: %d)\n", maxCollision);
     }
-}
-
-String*** dumpTable(HashTable* hashTable)
-{
-    String*** output = malloc(sizeof(String**) * hashTable->loaded);
-    for (int i = 0; i < hashTable->loaded; i++)
-    {
-        output[i] = malloc(sizeof(String*) * 2);
-    }
-    int outputLength = 0;
-    for (int i = 0; i < hashTable->size; i++)
-    {
-        if (isExist(hashTable->arrayOfLines[i]))
-        {
-            output[outputLength][0] = cloneString(hashTable->arrayOfLines[i]->keyString);
-            output[outputLength][1] = cloneString(hashTable->arrayOfLines[i]->contentString);
-        }
-    }
-    return output;
 }
