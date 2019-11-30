@@ -2,6 +2,7 @@
 #define STRINGBYSTUDENT_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 struct String;
 
@@ -15,8 +16,11 @@ char* importStringToArray(String* string);
 void concatenateStrings(String* baseString, String* endSubString);
 String* cloneString(String* string);
 bool areEqual(String* firstString, String* secondString);
-void readToString(String* string);
+void readToStringFromFile(String* string, FILE* file);
 String* getSubString(String* string, int start, int end);
 bool isEmptyString(String* string);
+void rewriteString(String* string, char* array);
+void printStringToFile(String* string, FILE* file);
+bool isReadableEmpty(String* string);
 
 #endif
