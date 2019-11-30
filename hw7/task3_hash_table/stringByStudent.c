@@ -69,7 +69,7 @@ char *importStringToArray(String *string)
     }
     int outputArrayLength = stringLength(string) + 1;
     char *output = malloc(sizeof(char) * outputArrayLength);
-    for (int i = 0; i < outputArrayLength; i++)
+    for (int i = 0; i < outputArrayLength - 1; i++)
     {
         output[i] = string->content[i];
     }

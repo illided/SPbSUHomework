@@ -52,10 +52,16 @@ void formatArrayOfChar(char *input)
 
 void increment(String *string)
 {
+    int oldLength = stringLength(string);
     char *array = importStringToArray(string);
     int numRepresentation = strtol(array, NULL, 10);
     numRepresentation++;
-    sprintf(array, "%d", numRepresentation);
+    int newLength = sprintf(array, "%d", numRepresentation);
+    if (oldLength != newLength)
+    {
+        array = realloc(array, sizeof(int) * newLength);
+        array[newLength - 1] = '\0';
+    }
     rewriteString(string, array);
     free(array);
 }
