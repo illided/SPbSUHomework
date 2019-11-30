@@ -112,9 +112,8 @@ void readToStringFromFile(String *string, FILE *file)
     int stringLength = 0;
     int stringSpace = 5;
     char *stringContent = malloc(sizeof(char) * stringSpace);
-    char input = ' ';
+    char input = fgetc(file);
 
-    fscanf(file, "%c", &input);
     while ((input != '\n') && (!feof(file)))
     {
         if (stringLength == stringSpace)
@@ -124,7 +123,7 @@ void readToStringFromFile(String *string, FILE *file)
         }
         stringContent[stringLength] = input;
         stringLength++;
-        fscanf(file, "%c", &input);
+        input = fgetc(file);
     }
 
     stringContent = realloc(stringContent, sizeof(char) * stringLength);

@@ -3,35 +3,22 @@
 #include "hashTable.h"
 #include "stringByStudent.h"
 
-const int maxSize = 1000;
-
-char *createArrayOfChar(int arrayLength)
-{
-    char *localString = malloc(sizeof(char) * arrayLength);
-    for (int i = 0; i < arrayLength; i++)
-    {
-        localString[i] = ' ';
-    }
-    return localString;
-}
-
 void addEntry(HashTable *numberByNameBook, HashTable *nameByNumberBook)
 {
     String *nameString = createEmptyString();
     String *phoneString = createEmptyString();
 
     printf("Name:\n");
-    fflush(stdin);
     readToStringFromFile(nameString, stdin);
     printf("Number:\n");
-    fflush(stdin);
     readToStringFromFile(phoneString, stdin);
     if (!isInTable(phoneString, nameByNumberBook) && !isInTable(nameString, numberByNameBook))
     {
         pushToHashTable(nameString, phoneString, numberByNameBook);
         pushToHashTable(phoneString, nameString, nameByNumberBook);
         printf("Person was added to the book\n");
-    } else
+    }
+    else
     {
         printf("Already have in the book\n");
     }
@@ -96,6 +83,7 @@ int main()
     {
         printf("Operation:\n");
         scanf("%d", &operation);
+        getc(stdin);
         switch (operation)
         {
             case 1:
@@ -103,26 +91,26 @@ int main()
                 break;
             case 2:
                 printf("Number:\n");
-                fflush(stdin);
                 readToStringFromFile(phoneString, stdin);
                 nameString = getFromHashTable(phoneString, nameByNumberBook);
                 if (nameString == NULL)
                 {
                     printf("I could not find a person with this number\n");
-                } else
+                }
+                else
                 {
                     printSearchResult(nameString, phoneString);
                 }
                 break;
             case 3:
                 printf("Name:\n");
-                fflush(stdin);
                 readToStringFromFile(nameString, stdin);
                 phoneString = getFromHashTable(nameString, numberByNameBook);
                 if (phoneString == NULL)
                 {
                     printf("I could not find a person with this name");
-                } else
+                }
+                else
                 {
                     printSearchResult(nameString, phoneString);
                 }
@@ -144,6 +132,8 @@ int main()
     deleteString(nameString);
     deleteString(phoneString);
     deleteHashTable(nameByNumberBook);
+    free(nameByNumberBook);
     deleteHashTable(numberByNameBook);
+    free(numberByNameBook);
     return 0;
 }

@@ -95,6 +95,7 @@ void deleteHashTable(HashTable *hashTable)
             deleteHashLine(hashTable->arrayOfLines[i]);
         }
     }
+    free(hashTable->arrayOfLines);
     free(hashTable);
 }
 
@@ -184,7 +185,6 @@ void expand(HashTable *hashTable)
     }
     for (int i = 0; i < hashTable->size; i++)
     {
-        int tries = 0;
         if (isExist(hashTable->arrayOfLines[i]))
         {
             HashLine *newHashLine = copyHashLine(hashTable->arrayOfLines[i]);
@@ -196,8 +196,10 @@ void expand(HashTable *hashTable)
         if (hashTable->arrayOfLines[i] != NULL)
         {
             deleteHashLine(hashTable->arrayOfLines[i]);
+            free(hashTable->arrayOfLines[i]);
         }
     }
+    free(hashTable->arrayOfLines);
     hashTable->arrayOfLines = newArray;
     hashTable->size = newSize;
 }
