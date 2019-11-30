@@ -36,7 +36,7 @@ Node* createNode(int value, Node* parent)
 
 bool isEmpty(Tree* tree)
 {
-    return tree->root == NULL;
+    return (tree == NULL) || (tree->root == NULL);
 }
 
 bool isLeaf(Node* node)
@@ -81,6 +81,10 @@ void setChild(Node* child, Node* parent, Tree* tree)
      * (CANT HAVE A NULL FOR A CHILD ARGUMENT)
      * (works with the root) */
 
+    if (child == NULL)
+    {
+        return;
+    }
     if (parent != NULL)
     {
         if (child->value > parent->value)
@@ -225,6 +229,10 @@ void appendNodeByPointer(int value, Node* node, Tree* tree)
 
 void append(int value, Tree* tree)
 {
+    if (tree == NULL)
+    {
+        return;
+    }
     if (isEmpty(tree))
     {
         tree->root = createNode(value, NULL);
@@ -344,8 +352,7 @@ bool isInTree(int value, Tree* tree)
 {
     /* return true if value contains in the tree
      * false - if it's not */
-
-    if (isEmpty(tree))
+    if (isEmpty(tree) || (tree == NULL))
     {
         return false;
     }
@@ -398,6 +405,7 @@ void printInDescendingOrder(Tree* tree)
     if (isEmpty(tree))
     {
         printf("{}");
+        return;
     }
     printf("{ ");
     printSubTreeInDescendingOrder(tree->root);
@@ -446,5 +454,8 @@ void burnTheTree(Tree* tree)
     {
         deleteNodeByPointer(tree->root, tree);
     }
-    free(tree);
+    if (tree != NULL)
+    {
+        free(tree);
+    }
 }

@@ -13,8 +13,8 @@ Tree* createTree();
 //return empty tree
 
 bool isEmpty(Tree* tree);
-/* return true if tree is empty
- * false - if not empty */
+/* return true if tree is empty or doesn't exist
+ * false - if not empty*/
 
 void append(int value, Tree* tree);
 // add value to the tree
@@ -24,7 +24,7 @@ void delete(int value, Tree* tree);
 
 bool isInTree(int value, Tree* tree);
 /* return true if value contains in the tree
- * false - if it's not */
+ * false - if it's not or tree doesn't exist*/
 
 void printInDescendingOrder(Tree* tree);
 //print the tree values in descending order
@@ -38,4 +38,5 @@ void printInRecurentOrder(Tree* tree);
 
 void burnTheTree(Tree* tree);
 //delete the tree
+
 #endif
