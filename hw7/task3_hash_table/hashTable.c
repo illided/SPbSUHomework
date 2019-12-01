@@ -6,14 +6,14 @@
 struct HashLine
 {
     String *keyString;
-    String *contentString;
+    int content;
     int insertTries;
     bool isDeleted;
 };
 
 typedef struct HashLine HashLine;
 
-HashLine *createHashLine(String *keyString, String *contentString)
+HashLine *createHashLine(String *keyString, int content)
 {
     /* This function creates hashline
      * and as you can see hashline can have NULL as a
@@ -25,7 +25,7 @@ HashLine *createHashLine(String *keyString, String *contentString)
     }
     HashLine *hashLine = malloc(sizeof(HashLine));
     hashLine->keyString = cloneString(keyString);
-    hashLine->contentString = cloneString(contentString);
+    hashLine->content = content;
     hashLine->insertTries = 0;
     hashLine->isDeleted = false;
     return hashLine;
@@ -36,7 +36,6 @@ void deleteHashLine(HashLine *hashLine)
     if (hashLine != NULL)
     {
         deleteString(hashLine->keyString);
-        deleteString(hashLine->contentString);
         free(hashLine);
     }
 }
@@ -47,7 +46,7 @@ HashLine *copyHashLine(HashLine *hashLine)
     {
         return NULL;
     }
-    HashLine *newHashLine = createHashLine(hashLine->keyString, hashLine->contentString);
+    HashLine *newHashLine = createHashLine(hashLine->keyString, hashLine->content);
     return newHashLine;
 }
 
@@ -208,7 +207,7 @@ bool isInTable(String *keyString, HashTable *hashTable)
     return searchForLine(keyString, hashTable) != NULL;
 }
 
-void pushToHashTable(String *keyString, String *contentString, HashTable *hashTable)
+void pushToHashTable(String *keyString, int content, HashTable *hashTable)
 {
     /* creates a hashline and adds it to the table, then updates the
      * load factor and extends the table if necessary. Note that
@@ -218,7 +217,7 @@ void pushToHashTable(String *keyString, String *contentString, HashTable *hashTa
     {
         return;
     }
-    HashLine *newHashLine = createHashLine(keyString, contentString);
+    HashLine *newHashLine = createHashLine(keyString, content);
     pushHashLine(newHashLine, hashTable->arrayOfLines, hashTable->size);
     hashTable->loaded++;
     double loadFactor = (double) (hashTable->loaded) / (double) (hashTable->size);
@@ -228,18 +227,18 @@ void pushToHashTable(String *keyString, String *contentString, HashTable *hashTa
     }
 }
 
-String *getFromHashTable(String *keyString, HashTable *hashTable)
+int getFromHashTable(String *keyString, HashTable *hashTable)
 {
     if ((hashTable == NULL) || (keyString == NULL))
     {
-        return NULL;
+        return 0;
     }
     HashLine *hashLine = searchForLine(keyString, hashTable);
     if (hashLine != NULL)
     {
-        return cloneString(hashLine->contentString);
+        return hashLine->content;
     }
-    return NULL;
+    return 0;
 }
 
 void deleteFromHashTable(String *keyString, HashTable *hashTable)
@@ -256,15 +255,14 @@ void deleteFromHashTable(String *keyString, HashTable *hashTable)
     }
 }
 
-void changeLineInHashTable(String *keyString, String *newContentString, HashTable *hashTable)
+void changeLineInHashTable(String *keyString, int newContent, HashTable *hashTable)
 {
     if ((keyString == NULL) || (hashTable == NULL))
     {
         return;
     }
     HashLine *oldLine = searchForLine(keyString, hashTable);
-    deleteString(oldLine->contentString);
-    oldLine->contentString = cloneString(newContentString);
+    oldLine->content = newContent;
 }
 
 void printHashTableContentToFile(HashTable *hashTable, FILE *file)
@@ -283,9 +281,7 @@ void printHashTableContentToFile(HashTable *hashTable, FILE *file)
         if (isExist(hashTable->arrayOfLines[i]))
         {
             printStringToFile(hashTable->arrayOfLines[i]->keyString, file);
-            fprintf(file, "\n");
-            printStringToFile(hashTable->arrayOfLines[i]->contentString, file);
-            fprintf(file, "\n");
+            fprintf(file, "\n%d\n", hashTable->arrayOfLines[i]->content);
         }
     }
 }
@@ -318,10 +314,9 @@ void printHashTableInfo(HashTable *hashTable)
     printf("Average collision factor: %f\n", (double) (collisions) / (double) (hashTable->loaded));
     if (maxCollisionLine != NULL)
     {
-        printf("Line with the biggest collision factor:\n");
+        printf("Line with the biggest collision factor: ");
         printStringToFile(maxCollisionLine->keyString, stdout);
-        printf(" ");
-        printStringToFile(maxCollisionLine->contentString, stdout);
+        printf(" %d", maxCollisionLine->content);
         printf(" (collision factor: %d)\n", maxCollision);
     }
 }
