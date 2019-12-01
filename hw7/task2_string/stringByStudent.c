@@ -1,23 +1,24 @@
-#include "stringByStudent.h"
 #include <stdlib.h>
-#include <stdio.h>
+
+#include "stringByStudent.h"
+
 
 struct String
 {
-    char *content;
+    char* content;
     int length;
 };
 
-String *createEmptyString()
+String* createEmptyString()
 {
-    String *string = malloc(sizeof(String));
+    String* string = malloc(sizeof(String));
     string->content = malloc(sizeof(char));
     string->content[0] = '\0';
     string->length = 0;
     return string;
 }
 
-void deleteString(String *string)
+void deleteString(String* string)
 {
     if (string != NULL)
     {
@@ -26,7 +27,7 @@ void deleteString(String *string)
     }
 }
 
-int stringLength(String *string)
+int stringLength(String* string)
 {
     if (string != NULL)
     {
@@ -35,18 +36,18 @@ int stringLength(String *string)
     return 0;
 }
 
-bool isEmptyString(String *string)
+bool isEmptyString(String* string)
 {
     return stringLength(string) == 0;
 }
 
-String *getStringFromArray(char *array)
+String* getStringFromArray(const char* array)
 {
     if (array == NULL)
     {
         return NULL;
     }
-    String *string = createEmptyString();
+    String* string = createEmptyString();
     int stringLength = 0;
     while (array[stringLength] != '\0')
     {
@@ -62,15 +63,15 @@ String *getStringFromArray(char *array)
     return string;
 }
 
-char *importStringToArray(String *string)
+char* importStringToArray(String* string)
 {
     if (string == NULL)
     {
         return NULL;
     }
     int outputArrayLength = stringLength(string) + 1;
-    char *output = malloc(sizeof(char) * outputArrayLength);
-    for (int i = 0; i < outputArrayLength; i++)
+    char* output = malloc(sizeof(char) * outputArrayLength);
+    for (int i = 0; i < outputArrayLength - 1; i++)
     {
         output[i] = string->content[i];
     }
@@ -78,7 +79,7 @@ char *importStringToArray(String *string)
     return output;
 }
 
-void concatenateStrings(String *baseString, String *endSubString)
+void concatenateStrings(String* baseString, String* endSubString)
 {
     /* adding the content of endSubString
      * to the end of baseString
@@ -99,7 +100,7 @@ void concatenateStrings(String *baseString, String *endSubString)
     }
 }
 
-void readToStringFromFile(String *string, FILE *file)
+void readToStringFromFile(String* string, FILE* file)
 {
     /* Rewrite the string with
      * data from file or standart input
@@ -111,7 +112,7 @@ void readToStringFromFile(String *string, FILE *file)
     }
     int stringLength = 0;
     int stringSpace = 5;
-    char *stringContent = malloc(sizeof(char) * stringSpace);
+    char* stringContent = malloc(sizeof(char) * stringSpace);
     char input = fgetc(file);
 
     while ((input != '\n') && (!feof(file)))
@@ -132,7 +133,7 @@ void readToStringFromFile(String *string, FILE *file)
     string->length = stringLength;
 }
 
-String *cloneString(String *string)
+String* cloneString(String* string)
 {
     // returns the string with the data of original string
 
@@ -140,12 +141,12 @@ String *cloneString(String *string)
     {
         return NULL;
     }
-    String *clonedString = createEmptyString();
+    String* clonedString = createEmptyString();
     concatenateStrings(clonedString, string);
     return clonedString;
 }
 
-bool areEqual(String *firstString, String *secondString)
+bool areEqual(String* firstString, String* secondString)
 {
     /* returns true, if both strings contains the same characters
      * at the same places
@@ -172,7 +173,7 @@ bool areEqual(String *firstString, String *secondString)
     return false;
 }
 
-String *getSubString(String *string, int start, int end)
+String* getSubString(String* string, int start, int end)
 {
     /* return the sub string of a given string
      * (if the start or end point is less or bigger then
@@ -206,7 +207,7 @@ String *getSubString(String *string, int start, int end)
     return getStringFromArray(subStringContent);
 }
 
-void rewriteString(String *string, char *array)
+void rewriteString(String* string, const char* array)
 {
     /* changes the contents of the string to
      * the contents of the array (if instead of
@@ -237,7 +238,7 @@ void rewriteString(String *string, char *array)
     }
 }
 
-void printStringToFile(String *string, FILE *file)
+void printStringToFile(String* string, FILE* file)
 {
     if ((string == NULL) || (file == NULL))
     {
@@ -250,7 +251,7 @@ void printStringToFile(String *string, FILE *file)
     }
 }
 
-bool isReadableEmpty(String *string)
+bool isReadableEmpty(String* string)
 {
     if (string == NULL)
     {
