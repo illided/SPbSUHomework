@@ -40,7 +40,7 @@ int main()
     }
     mantis = 1 + mantis / 2;
 
-    printf("Result: ")
+    printf("Result: ");
     if (mantis == 1 && order == -1023)
     {
         printf("0");
