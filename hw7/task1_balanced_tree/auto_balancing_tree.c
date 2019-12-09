@@ -381,6 +381,7 @@ void printInAscendingOrder(Tree* tree)
     if (isEmpty(tree))
     {
         printf("{}");
+        return;
     }
     printf("{ ");
     printSubTreeInAscendingOrder(tree->root);
