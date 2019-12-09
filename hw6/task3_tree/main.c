@@ -1,44 +1,76 @@
 #include <stdio.h>
 #include "basic_tree.h"
 
-int main() {
+int main()
+{
     Tree* tree = createTree();
-    printf("Hello! I am a happy tree!\nI can store a lot of things!\n");
-    printf("(lets put 6, 2, 8, 4, 1, 10, 7)\n");
-    append(6, tree);
-    append(2, tree);
-    append(8, tree);
-    append(4, tree);
-    append(1, tree);
-    append(10, tree);
-    append(7, tree);
-
-    printf("In ascending ord: ");
-    printInAscendingOrder(tree);
-    printf("\n");
-    printf("In descending order: ");
-    printInDescendingOrder(tree);
-    printf("\n");
-    printf("In recurent order: ");
-    printInRecurentOrder(tree);
-    printf("\n");
-
-    printf("I can delete things!\n(lets delete 2, 8 and 6)\n");
-    delete(2, tree);
-    delete(8, tree);
-    delete(6, tree);
-    printInRecurentOrder(tree);
-
-    printf("\nI can check if there a something in the tree!\nAsk me about some number:\n");
-    int number = 0;
-    scanf("%d", &number);
-    if (isInTree(number, tree))
+    int input = -1;
+    int activeElement = 0;
+    printf("Hello! I am a tree program. Some things you can do via (<operation> enter <operand>):\n"
+           "1 - add something to the tree\n"
+           "2 - delete something\n"
+           "3 - check if some value contains in the tree\n"
+           "4 - print tree content in ascending order\n"
+           "5 - print tree content in descending order\n"
+           "6 - print in recurent order\n"
+           "0 - exit\n");
+    while (input != 0)
     {
-        printf("%d is in the tree\n", number);
-    }
-    else
-    {
-        printf("%d is not in the tree\n", number);
+        printf("Operation:\n");
+        scanf("%d", &input);
+        switch (input)
+        {
+            case 1:
+                printf("Value:\n");
+                scanf("%d", &activeElement);
+                if (!isInTree(activeElement, tree))
+                {
+                    append(activeElement, tree);
+                    printf("%d was added\n", activeElement);
+                }
+                else
+                {
+                    printf("Already have in the tree\n");
+                }
+                break;
+            case 2:
+                printf("Value:\n");
+                scanf("%d", &activeElement);
+                if (isInTree(activeElement, tree))
+                {
+                    delete(activeElement, tree);
+                    printf("%d was deleted\n", activeElement);
+                }
+                else
+                {
+                    printf("Dont have this value in the tree\n");
+                }
+                break;
+            case 3:
+                printf("Value:\n");
+                scanf("%d", &activeElement);
+                if (!isInTree(activeElement, tree))
+                {
+                    printf("I don't have this value\n");
+                }
+                else
+                {
+                    printf("I have this value\n");
+                }
+                break;
+            case 4:
+                printInAscendingOrder(tree);
+                printf("\n");
+                break;
+            case 5:
+                printInDescendingOrder(tree);
+                printf("\n");
+                break;
+            case 6:
+                printInRecurentOrder(tree);
+                printf("\n");
+                break;
+        }
     }
 
     burnTheTree(tree);

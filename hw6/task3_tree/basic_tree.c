@@ -34,7 +34,7 @@ Node* createNode(int value, Node* parent)
 
 bool isEmpty(Tree* tree)
 {
-    return tree->root == NULL;
+    return tree == NULL || tree->root == NULL;
 }
 
 bool isLeaf(Node* node)
@@ -76,6 +76,10 @@ void appendNodeByPointer(int value, Node* node)
 
 void append(int value, Tree* tree)
 {
+    if (tree == NULL)
+    {
+        return;
+    }
     if (isEmpty(tree))
     {
         tree->root = createNode(value, NULL);
@@ -99,7 +103,7 @@ Node* findNodeWithValue(int value, Node* node)
         {
             return findNodeWithValue(value, node->rightChild);
         }
-            return NULL;
+        return NULL;
     }
     else if (value < node->value)
     {
@@ -107,7 +111,7 @@ Node* findNodeWithValue(int value, Node* node)
         {
             return findNodeWithValue(value, node->leftChild);
         }
-            return NULL;
+        return NULL;
     }
 
     return node;
@@ -240,15 +244,15 @@ bool isInTree(int value, Tree* tree)
 
 void printSubTreeInAscendingOrder(Node* node)
 {
-   if (node->leftChild != NULL)
-   {
-       printSubTreeInAscendingOrder(node->leftChild);
-   }
-   printf("%d ", node->value);
-   if (node->rightChild != NULL)
-   {
-       printSubTreeInAscendingOrder(node->rightChild);
-   }
+    if (node->leftChild != NULL)
+    {
+        printSubTreeInAscendingOrder(node->leftChild);
+    }
+    printf("%d ", node->value);
+    if (node->rightChild != NULL)
+    {
+        printSubTreeInAscendingOrder(node->rightChild);
+    }
 }
 
 void printInAscendingOrder(Tree* tree)
@@ -256,6 +260,7 @@ void printInAscendingOrder(Tree* tree)
     if (isEmpty(tree))
     {
         printf("{}");
+        return;
     }
     printf("{ ");
     printSubTreeInAscendingOrder(tree->root);
@@ -280,6 +285,7 @@ void printInDescendingOrder(Tree* tree)
     if (isEmpty(tree))
     {
         printf("{}");
+        return;
     }
     printf("{ ");
     printSubTreeInDescendingOrder(tree->root);
@@ -314,6 +320,7 @@ void printInRecurentOrder(Tree* tree)
 {
     /* calls a recurent function
      * print sub tree for a root */
+
     if (isEmpty(tree))
     {
         printf("()");
