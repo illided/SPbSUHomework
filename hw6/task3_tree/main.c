@@ -23,9 +23,9 @@ int main()
             case 1:
                 printf("Value:\n");
                 scanf("%d", &activeElement);
-                if (!isInTree(activeElement, tree))
+                if (!isInTree(tree, activeElement))
                 {
-                    append(activeElement, tree);
+                    append(tree, activeElement);
                     printf("%d was added\n", activeElement);
                 }
                 else
@@ -36,9 +36,9 @@ int main()
             case 2:
                 printf("Value:\n");
                 scanf("%d", &activeElement);
-                if (isInTree(activeElement, tree))
+                if (isInTree(tree, activeElement))
                 {
-                    delete(activeElement, tree);
+                    delete(tree, activeElement);
                     printf("%d was deleted\n", activeElement);
                 }
                 else
@@ -49,7 +49,7 @@ int main()
             case 3:
                 printf("Value:\n");
                 scanf("%d", &activeElement);
-                if (!isInTree(activeElement, tree))
+                if (!isInTree(tree, activeElement))
                 {
                     printf("I don't have this value\n");
                 }

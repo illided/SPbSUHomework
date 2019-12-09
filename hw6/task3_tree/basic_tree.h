@@ -17,14 +17,14 @@ Tree* createTree();
 bool isEmpty(Tree* tree);
 
 // add value to the tree
-void append(int value, Tree* tree);
+void append(Tree* tree, int value);
 
 // delete value from the tree
-void delete(int value, Tree* tree);
+void delete(Tree* tree, int value);
 
 /* return true if value contains in the tree
  * false - if it's not */
-bool isInTree(int value, Tree* tree);
+bool isInTree(Tree* tree, int value);
 
 //print the tree values in descending order
 void printInDescendingOrder(Tree* tree);

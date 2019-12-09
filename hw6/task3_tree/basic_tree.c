@@ -74,7 +74,7 @@ void appendNodeByPointer(int value, Node* node)
     }
 }
 
-void append(int value, Tree* tree)
+void append(Tree* tree, int value)
 {
     if (tree == NULL)
     {
@@ -210,7 +210,7 @@ void deleteNodeByPointer(Node* node, Tree* tree)
     }
 }
 
-void delete(int value, Tree* tree)
+void delete(Tree* tree, int value)
 {
     /* search for a node with a giving
      * value and deleting it */
@@ -226,7 +226,7 @@ void delete(int value, Tree* tree)
     }
 }
 
-bool isInTree(int value, Tree* tree)
+bool isInTree(Tree* tree, int value)
 {
     /* return true if value contains in the tree
      * false - if it's not */
