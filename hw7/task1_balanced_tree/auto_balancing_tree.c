@@ -34,6 +34,15 @@ Node* createNode(int value, Node* parent)
     return newNode;
 }
 
+int getMaximum(int firstValue, int secondValue)
+{
+    if (firstValue > secondValue)
+    {
+        return firstValue;
+    }
+    return secondValue;
+}
+
 bool isEmpty(Tree* tree)
 {
     return (tree == NULL) || (tree->root == NULL);
@@ -55,16 +64,7 @@ int getHeight(Node* node)
 
 void updateHeight(Node* node)
 {
-    int rightChildHeight = getHeight(node->rightChild);
-    int leftChildHeight = getHeight(node->leftChild);
-    if (leftChildHeight < rightChildHeight)
-    {
-        node->height = rightChildHeight + 1;
-    }
-    else
-    {
-        node->height = leftChildHeight + 1;
-    }
+    node->height = getMaximum(getHeight(node->rightChild), getHeight(node->leftChild)) + 1;
 }
 
 int getBalanceFactor(Node* node)
@@ -356,11 +356,7 @@ bool isInTree(Tree* tree, int value)
     {
         return false;
     }
-    if (findNodeWithValue(value, tree->root, tree) != NULL)
-    {
-        return true;
-    }
-    return false;
+    return findNodeWithValue(value, tree->root, tree) != NULL;
 }
 
 void printSubTreeInAscendingOrder(Node* node)
