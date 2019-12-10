@@ -9,8 +9,8 @@
 int getPriority(char operation)
 {
     const int numOfOperations = 4;
-    char operations[4] = {'+', '-', '*', '/'};
-    int priorities[4] = {1, 1, 2, 2};
+    char operations[] = {'+', '-', '*', '/'};
+    int priorities[] = {1, 1, 2, 2};
 
     for (int i = 0; i < numOfOperations; i++)
     {
@@ -25,7 +25,7 @@ int getPriority(char operation)
 bool isInputCorrect(char input)
 {
     const int numOfOperations = 4;
-    char operations[4] = {'+', '-', '*', '/'};
+    char operations[] = {'+', '-', '*', '/'};
     bool inputIsCorrect = false;
     for (int i = 0; i < numOfOperations; i++)
     {
