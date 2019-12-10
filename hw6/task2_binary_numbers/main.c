@@ -18,7 +18,7 @@ int raiseToThePower(int number, int power)
     return number * raiseToThePower(number, power - 1);
 }
 
-short int* getSumOfBinaries(short int* firstNumber, short int* secondNumber)
+short int* getSumOfBinaries(const short int* firstNumber, const short int* secondNumber)
 {
     short int buffer = 0;
     short int* result = malloc(sizeof(short int) * (maxBinaryNumLength));
@@ -94,7 +94,6 @@ short int* convertFromDecToBinary(int number)
 int convertFromBinToDec(short int* numberInBinary)
 {
     int numberInDec = 0;
-    bool numberIsNegative = false;
 
     /* If the number is negative, then it needs
      * some preparation (you need to replace 0 with 1,
@@ -102,29 +101,26 @@ int convertFromBinToDec(short int* numberInBinary)
 
     if (numberInBinary[0] == 1)
     {
-        numberIsNegative = true;
         short int* minusOne = convertFromDecToBinary(-1);
-        short int* pointerToBinaryNumber = numberInBinary;
-        numberInBinary = getSumOfBinaries(numberInBinary, minusOne);
-        free(pointerToBinaryNumber);
+        short int* preProcessedBinNum = getSumOfBinaries(numberInBinary, minusOne);
         free(minusOne);
-
         for (int i = 0; i < maxBinaryNumLength; i++)
         {
-            numberInBinary[i] = 1 - numberInBinary[i];
+            preProcessedBinNum[i] = 1 - preProcessedBinNum[i];
         }
+        for (int i = 0; i < maxBinaryNumLength; i++)
+        {
+            numberInDec += (int) preProcessedBinNum[i] * raiseToThePower(2, maxBinaryNumLength - i - 1);
+        }
+        numberInDec *= -1;
+        free(preProcessedBinNum);
+        return numberInDec;
     }
 
     /* Converting a POSITIVE binary to decimal */
     for (int i = 0; i < maxBinaryNumLength; i++)
     {
-        numberInDec += (int)numberInBinary[i] * raiseToThePower(2, maxBinaryNumLength - i - 1);
-    }
-
-    /* Multiplying it by -1 if it was negative */
-    if (numberIsNegative)
-    {
-        numberInDec *= -1;
+        numberInDec += (int) numberInBinary[i] * raiseToThePower(2, maxBinaryNumLength - i - 1);
     }
 
     return numberInDec;
@@ -142,7 +138,8 @@ void printBinary(short int* binaryNumber)
     }
 }
 
-int main() {
+int main()
+{
     printf("Enter two numbers:\n");
     int firstNumber = 0;
     int secondNumber = 0;
