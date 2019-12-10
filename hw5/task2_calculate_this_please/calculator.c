@@ -7,7 +7,7 @@
 bool isOperation(char input)
 {
     const int numOfOperations = 4;
-    char operations[4] = {'+', '-', '*', '/'};
+    char operations[] = {'+', '-', '*', '/'};
     for (int i = 0; i < numOfOperations; i++)
     {
         if (input == operations[i])
