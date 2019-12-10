@@ -3,7 +3,6 @@
 #include "simpleArrays.h"
 #include "calculator.h"
 
-
 int main()
 {
     printf("Enter an expression in reverse polish notation\n");
