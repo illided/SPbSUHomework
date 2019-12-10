@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char *createString(int stringLength)
+char* createString(int stringLength)
 {
-    char *localString = malloc(sizeof(char) * stringLength);
+    char* localString = malloc(sizeof(char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -11,9 +11,33 @@ char *createString(int stringLength)
     return localString;
 }
 
-unsigned char *createUnsignedString(int stringLength)
+char* getString()
 {
-    unsigned char *localString = malloc(sizeof(unsigned char) * stringLength);
+    // gets a string from stdin with random size
+    int maxSize = 5;
+    int stringLength = 0;
+    char* output = createString(maxSize);
+    char input = ' ';
+
+    scanf("%c", &input);
+    while (input != '\n')
+    {
+        if (stringLength == maxSize)
+        {
+            maxSize *= 2;
+            output = realloc(output, sizeof(char) * maxSize);
+        }
+        output[stringLength] = input;
+        stringLength++;
+        scanf("%c", &input);
+    }
+    output[stringLength] = '\0';
+    return output;
+}
+
+unsigned char* createUnsignedString(int stringLength)
+{
+    unsigned char* localString = malloc(sizeof(unsigned char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -21,9 +45,9 @@ unsigned char *createUnsignedString(int stringLength)
     return localString;
 }
 
-int *createArrayOfInt(int arrayLength)
+int* createArrayOfInt(int arrayLength)
 {
-    int *arrayOfInt = malloc(sizeof(int) * arrayLength);
+    int* arrayOfInt = malloc(sizeof(int) * arrayLength);
     for (int i = 0; i < arrayLength; i++)
     {
         arrayOfInt[i] = 0;
@@ -31,7 +55,7 @@ int *createArrayOfInt(int arrayLength)
     return arrayOfInt;
 }
 
-void scanArrayOfInt(int begin, int end, int *arrayOfInt)
+void scanArrayOfInt(int begin, int end, int* arrayOfInt)
 {
     for (int i = begin; i <= end; i++)
     {
@@ -39,7 +63,7 @@ void scanArrayOfInt(int begin, int end, int *arrayOfInt)
     }
 }
 
-void printArrayOfInt(int begin, int end, int *arrayOfInt)
+void printArrayOfInt(int begin, int end, int* arrayOfInt)
 {
     for (int i = begin; i <= end; i++)
     {
