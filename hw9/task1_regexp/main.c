@@ -3,9 +3,22 @@
 #include <string.h>
 #include <ctype.h>
 
-char *createString(int stringLength)
+enum stateList
 {
-    char *localString = malloc(sizeof(char) * stringLength);
+    initial,
+    numSign,
+    firstDigits,
+    dot,
+    digitsAfterDot,
+    exponent,
+    exponentSign,
+    exponentDigits,
+    somethingWrong
+};
+
+char* createString(int stringLength)
+{
+    char* localString = malloc(sizeof(char) * stringLength);
     for (int i = 0; i < stringLength; i++)
     {
         localString[i] = ' ';
@@ -13,11 +26,11 @@ char *createString(int stringLength)
     return localString;
 }
 
-char *getString()
+char* getString()
 {
     int maxSize = 5;
     int stringLength = 0;
-    char *output = createString(maxSize);
+    char* output = createString(maxSize);
     char input = ' ';
 
     scanf("%c", &input);
@@ -36,89 +49,90 @@ char *getString()
     return output;
 }
 
-int getState(int state, char input)
+int getState(enum stateList state, char input)
 {
     switch (state)
     {
-        case 1:
+        case initial:
             if ((input == '+') || (input == '-'))
             {
-                return 2;
+                return numSign;
             }
             if (isdigit(input))
             {
-                return 3;
+                return firstDigits;
             }
-        case 2:
+            return somethingWrong;
+        case numSign:
             if (isdigit(input))
             {
-                return  3;
+                return firstDigits;
             }
-        case 3:
+            return somethingWrong;
+        case firstDigits:
             if (input == '.')
             {
-                return  4;
+                return dot;
             }
             if (isdigit(input))
             {
-                return 3;
+                return firstDigits;
             }
             if (input == 'E' || input == 'e')
             {
-                return 6;
+                return exponent;
             }
-        case 4:
+            return somethingWrong;
+        case dot:
             if (isdigit(input))
             {
-                return  5;
+                return digitsAfterDot;
             }
-        case 5:
+            return somethingWrong;
+        case digitsAfterDot:
             if (isdigit(input))
             {
-                return 5;
+                return digitsAfterDot;
             }
             if (input == 'E' || input == 'e')
             {
-                return 6;
+                return exponent;
             }
-        case 6:
+            return somethingWrong;
+        case exponent:
             if (input == '+' || input == '-')
             {
-                return 7;
+                return exponentSign;
             }
             if (isdigit(input))
             {
-                return 8;
+                return exponentDigits;
             }
-        case 7:
+            return somethingWrong;
+        case exponentSign:
+        case exponentDigits:
             if (isdigit(input))
             {
-                return 8;
+                return exponentDigits;
             }
-        case 8:
-            if (isdigit(input))
-            {
-                return 8;
-            }
-        default:
-            return -1;
+            return somethingWrong;
     }
 }
 
 int match(char* input)
 {
-    int state = 1;
+    enum stateList state = initial;
     int currentCharPos = 0;
     while (input[currentCharPos] != '\0')
     {
         state = getState(state, input[currentCharPos]);
-        if (state == -1)
+        if (state == somethingWrong)
         {
             return currentCharPos;
         }
         currentCharPos++;
     }
-    if (state != 3 && state != 5 && state != 8)
+    if (state != firstDigits && state != digitsAfterDot && state != exponentDigits)
     {
         return strlen(input) - 1;
     }
