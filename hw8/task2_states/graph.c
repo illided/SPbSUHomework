@@ -185,6 +185,16 @@ bool depthFirstSearch(Vertex* firstVertex, Vertex* secondVertex)
     return false;
 }
 
+void clearCheckFlag(Graph* graph)
+{
+    VertexListElement* pointer = graph->vertices->head;
+    while (pointer != NULL)
+    {
+        pointer->vertex->isChecked = false;
+        pointer = pointer->nextElement;
+    }
+}
+
 bool areConnected(Graph* graph, int firstKey, int secondKey)
 {
     if (graph == NULL)
@@ -201,12 +211,7 @@ bool areConnected(Graph* graph, int firstKey, int secondKey)
     else
     {
         connectionExist = depthFirstSearch(firstVertex, secondVertex);
-        VertexListElement* pointer = graph->vertices->head;
-        while (pointer != NULL)
-        {
-            pointer->vertex->isChecked = false;
-            pointer = pointer->nextElement;
-        }
+        clearCheckFlag(graph);
         return connectionExist;
     }
 }
@@ -294,6 +299,7 @@ Graph* cluster(Graph* graph, const int* keyArray, int keyArrayLength)
         }
         currentCapital++;
     }
+    clearCheckFlag(graph);
     for (int i = 0; i < keyArrayLength; i++)
     {
         deleteVertexList(clusterMatrix[i]);
