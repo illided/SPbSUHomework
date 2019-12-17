@@ -53,7 +53,7 @@ void quickSort(int left, int right, int array[])
         }
     } while (leftPointer <= rightPointer);
 
-    quickSort(left, rightPointer , array);
+    quickSort(left, rightPointer, array);
     quickSort(leftPointer, right, array);
 }
 
