@@ -60,10 +60,12 @@ void quickSort(int left, int right, int array[])
 int main()
 {
     int arrayLength = 0;
+    printf("Enter the array:\n");
     int* array = readZeroTerminatedArrayOfInt(&arrayLength);
     quickSort(0, arrayLength - 1, array);
     int currentDigit = 0;
     int numOfReiteration = 1;
+    printf("Answer:\n");
     for (int i = 0; i < arrayLength; i++)
     {
         if (array[i] != currentDigit)
