@@ -4,17 +4,12 @@
 
 int getVariant(Graph* studentGraph, int student)
 {
-    if (areConnected(studentGraph, 1, student))
+    for (int i = 1; i < 4; i++)
     {
-        return 1;
-    }
-    if (areConnected(studentGraph, 2, student))
-    {
-        return 2;
-    }
-    if (areConnected(studentGraph, 3, student))
-    {
-        return 3;
+        if (areConnected(studentGraph, i, student))
+        {
+            return i;
+        }
     }
     return -1;
 }
