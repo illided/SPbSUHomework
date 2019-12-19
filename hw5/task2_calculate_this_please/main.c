@@ -7,7 +7,7 @@ int main()
 {
     printf("Enter an expression in reverse polish notation\n");
     char* input = getString();
-    printf("%lf", getResultOfExpression(input));
+    printf("Answer:\n%lf", getResultOfExpression(input));
     free(input);
     return 0;
 }

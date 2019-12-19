@@ -85,7 +85,7 @@ struct StackOfDoubleElement
 struct StackOfDouble
 {
     StackOfDoubleElement* head;
-    double size;
+    int size;
 };
 
 StackOfDouble* createStackOfDouble()
@@ -133,7 +133,7 @@ double peekDouble(StackOfDouble* stack)
     return stack->head->value;
 }
 
-double size(StackOfDouble* stack)
+int size(StackOfDouble* stack)
 {
     return stack->size;
 }

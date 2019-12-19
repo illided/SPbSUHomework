@@ -26,7 +26,7 @@ StackOfDouble* createStackOfDouble();
 void appendDouble(double value, StackOfDouble* stack);
 double popDouble(StackOfDouble* stack);
 double peekDouble(StackOfDouble* stack);
-double size(StackOfDouble* stack);
+int size(StackOfDouble* stack);
 bool stackOfDoubleIsEmpty(StackOfDouble* stack);
 void deleteStackOfDouble(StackOfDouble* stack);
 

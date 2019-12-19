@@ -22,14 +22,14 @@ char* getString()
     scanf("%c", &input);
     while (input != '\n')
     {
+        output[stringLength] = input;
+        stringLength++;
+        scanf("%c", &input);
         if (stringLength == maxSize)
         {
             maxSize *= 2;
             output = realloc(output, sizeof(char) * maxSize);
         }
-        output[stringLength] = input;
-        stringLength++;
-        scanf("%c", &input);
     }
     output[stringLength] = '\0';
     return output;

@@ -65,6 +65,7 @@ double getResultOfExpression(char* input)
             if ((secondNumber == 0) && (input[charPos] == '/'))
             {
                 printf("Incorrect input (tried to divide by zero)\n");
+                deleteStackOfDouble(numbers);
                 return 0;
             }
             appendDouble(getOperationResult(input[charPos], firstNumber, secondNumber), numbers);
@@ -82,10 +83,26 @@ double getResultOfExpression(char* input)
         else
         {
             printf("Incorrect input (strange char)\n");
+            deleteStackOfDouble(numbers);
             return 0;
         }
     }
-    double result = popDouble(numbers);
+    if (!bufferIsEmpty)
+    {
+        appendDouble(numberBuffer, numbers);
+    }
+    double result = 0;
+    int numbersSize = size(numbers);
+    if (numbersSize == 1)
+    {
+        result = popDouble(numbers);
+    }
+    else if (numbersSize > 1)
+    {
+        printf("Incorrect input\n");
+        free(numbers);
+        return 0;
+    }
     free(numbers);
     return result;
 }
