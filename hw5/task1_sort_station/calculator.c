@@ -87,7 +87,8 @@ bool tryToHandleOperation(int* outputLength, Stack* specialCharsStack, char* out
 char* convertToReversePolishNotation(char* input)
 {
     int outputLength = 0;
-    char* output = createString(2 * strlen(input));
+    int inputLength = strlen(input);
+    char* output = createString(2 * inputLength + 1);
     Stack* specialCharsStack = createStack();
     for (int currentChar = 0; input[currentChar] != '\0'; currentChar++)
     {
@@ -109,8 +110,9 @@ char* convertToReversePolishNotation(char* input)
         {
             // if next token is a digit then send it to the output
             output[outputLength] = input[currentChar];
+
             // if next token is not a digit then add a space
-            if (!isdigit(input[currentChar + 1]))
+            if (currentChar + 1 == inputLength || !isdigit(input[currentChar + 1]))
             {
                 outputLength++;
                 output[outputLength] = ' ';
