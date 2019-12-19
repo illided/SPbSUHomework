@@ -9,7 +9,7 @@ struct Node;
 typedef struct Tree Tree;
 typedef struct Node Node;
 
-//return empty tree
+// return empty tree
 Tree* createTree();
 
 /* return true if tree is empty
@@ -36,7 +36,7 @@ void printInAscendingOrder(Tree* tree);
  * (5 (2 null null) (10 null (12 null null))) */
 void printInRecurentOrder(Tree* tree);
 
-//delete the tree
+// delete the tree
 void burnTheTree(Tree* tree);
 
 #endif
