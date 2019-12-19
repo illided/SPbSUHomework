@@ -132,8 +132,6 @@ char* convertToReversePolishNotation(char* input)
         {
             if (!tryToHandleCloseBracket(&outputLength, specialCharsStack, output))
             {
-                deleteStackOfChar(specialCharsStack);
-                free(output);
                 return NULL;
             }
         }
@@ -141,8 +139,6 @@ char* convertToReversePolishNotation(char* input)
         {
             if (!tryToHandleOperation(&outputLength, specialCharsStack, output, input[currentChar]))
             {
-                deleteStackOfChar(specialCharsStack);
-                free(output);
                 return NULL;
             }
         }
