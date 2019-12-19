@@ -14,18 +14,20 @@ void appendChar(char value, StackOfChar* stack);
 char popChar(StackOfChar* stack);
 char peekChar(StackOfChar* stack);
 bool stackOfCharIsEmpty(StackOfChar* stack);
+void deleteStackOfChar(StackOfChar* stack);
 
-struct StackOfInt;
-struct StackOfIntElement;
+struct StackOfDouble;
+struct StackOfDoubleElement;
 
-typedef struct StackOfInt StackOfInt;
-typedef struct StackOfIntElement StackOfIntElement;
+typedef struct StackOfDouble StackOfDouble;
+typedef struct StackOfDoubleElement StackOfDoubleElement;
 
-StackOfInt* createStackOfInt();
-void appendInt(int value, StackOfInt* stack);
-int popInt(StackOfInt* stack);
-int peekInt(StackOfInt* stack);
-int size(StackOfInt* stack);
-bool stackOfIntIsEmpty(StackOfInt* stack);
+StackOfDouble* createStackOfDouble();
+void appendDouble(double value, StackOfDouble* stack);
+double popDouble(StackOfDouble* stack);
+double peekDouble(StackOfDouble* stack);
+int size(StackOfDouble* stack);
+bool stackOfDoubleIsEmpty(StackOfDouble* stack);
+void deleteStackOfDouble(StackOfDouble* stack);
 
 #endif

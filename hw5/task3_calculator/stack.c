@@ -16,6 +16,7 @@ StackOfChar* createStackOfChar()
 {
     StackOfChar* newStack = malloc(sizeof(StackOfChar));
     newStack->head = NULL;
+    return newStack;
 }
 
 void appendChar(char value, StackOfChar* stack)
@@ -53,63 +54,108 @@ char peekChar(StackOfChar* stack)
     return stack->head->value;
 }
 
-struct StackOfIntElement
+void recursiveDeleteOfChar(StackOfCharElement* stackElement)
 {
-    int value;
-    StackOfIntElement* next;
+    if (stackElement->next != NULL)
+    {
+        recursiveDeleteOfChar(stackElement->next);
+    }
+    free(stackElement);
+}
+
+void deleteStackOfChar(StackOfChar* stack)
+{
+    if (stack == NULL)
+    {
+        return;
+    }
+    if (stack->head != NULL)
+    {
+        recursiveDeleteOfChar(stack->head);
+    }
+    free(stack);
+}
+
+struct StackOfDoubleElement
+{
+    double value;
+    StackOfDoubleElement* next;
 };
 
-struct StackOfInt
+struct StackOfDouble
 {
-    StackOfIntElement* head;
+    StackOfDoubleElement* head;
     int size;
 };
 
-StackOfInt* createStackOfInt()
+StackOfDouble* createStackOfDouble()
 {
-    StackOfInt* newStack = malloc(sizeof(StackOfInt));
+    StackOfDouble* newStack = malloc(sizeof(StackOfDouble));
     newStack->head = NULL;
     newStack->size = 0;
+    return newStack;
 }
 
-void appendInt(int value, StackOfInt* stack)
+void appendDouble(double value, StackOfDouble* stack)
 {
-    StackOfIntElement* newElement = malloc(sizeof(StackOfIntElement));
+    StackOfDoubleElement* newElement = malloc(sizeof(StackOfDoubleElement));
     newElement->value = value;
     newElement->next = stack->head;
     stack->head = newElement;
     stack->size++;
 }
 
-int popInt(StackOfInt* stack)
+double popDouble(StackOfDouble* stack)
 {
     if (stack->head == NULL)
     {
         return 0;
     }
-    StackOfIntElement* deletedElement = stack->head;
+    StackOfDoubleElement* deletedElement = stack->head;
     stack->head = deletedElement->next;
-    int value = deletedElement->value;
+    double value = deletedElement->value;
     free(deletedElement);
     stack->size--;
     return value;
 }
 
-bool stackOfIntIsEmpty(StackOfInt* stack)
+bool stackOfDoubleIsEmpty(StackOfDouble* stack)
 {
     return stack->head == NULL;
 }
 
-int peekInt(StackOfInt* stack)
+double peekDouble(StackOfDouble* stack)
 {
-    if (stackOfIntIsEmpty(stack))
+    if (stackOfDoubleIsEmpty(stack))
     {
         return '\0';
     }
     return stack->head->value;
 }
 
-int size(StackOfInt* stack)
+int size(StackOfDouble* stack)
 {
     return stack->size;
+}
+
+void recursiveDeleteOfDouble(StackOfDoubleElement* stackElement)
+{
+    if (stackElement->next != NULL)
+    {
+        recursiveDeleteOfDouble(stackElement->next);
+    }
+    free(stackElement);
+}
+
+void deleteStackOfDouble(StackOfDouble* stack)
+{
+    if (stack == NULL)
+    {
+        return;
+    }
+    if (stack->head != NULL)
+    {
+        recursiveDeleteOfDouble(stack->head);
+    }
+    free(stack);
 }
