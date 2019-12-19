@@ -132,6 +132,8 @@ char* convertToReversePolishNotation(char* input)
         {
             if (!tryToHandleCloseBracket(&outputLength, specialCharsStack, output))
             {
+                deleteStackOfChar(specialCharsStack);
+                free(output);
                 return NULL;
             }
         }
@@ -139,6 +141,8 @@ char* convertToReversePolishNotation(char* input)
         {
             if (!tryToHandleOperation(&outputLength, specialCharsStack, output, input[currentChar]))
             {
+                deleteStackOfChar(specialCharsStack);
+                free(output);
                 return NULL;
             }
         }
@@ -195,6 +199,7 @@ double getResultOfExpression(char* input)
             if (size(numbers) < 2)
             {
                 printf("Incorrect input\n");
+                deleteStackOfDouble(numbers);
                 return 0;
             }
             double secondNumber = popDouble(numbers);
@@ -237,10 +242,10 @@ double getResultOfExpression(char* input)
     else if (numbersSize > 1)
     {
         printf("Incorrect input\n");
-        free(numbers);
+        deleteStackOfDouble(numbers);
         return 0;
     }
-    free(numbers);
+    deleteStackOfDouble(numbers);
     return result;
 }
 
