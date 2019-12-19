@@ -231,15 +231,7 @@ bool isInTree(Tree* tree, int value)
     /* return true if value contains in the tree
      * false - if it's not */
 
-    if (isEmpty(tree))
-    {
-        return false;
-    }
-    if (findNodeWithValue(value, tree->root) != NULL)
-    {
-        return true;
-    }
-    return false;
+    return !isEmpty(tree) && (findNodeWithValue(value, tree->root) != NULL);
 }
 
 void printSubTreeInAscendingOrder(Node* node)

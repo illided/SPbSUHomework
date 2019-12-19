@@ -21,6 +21,7 @@ int main()
         switch (input)
         {
             case 1:
+            {
                 printf("Value:\n");
                 scanf("%d", &activeElement);
                 if (!isInTree(tree, activeElement))
@@ -33,7 +34,9 @@ int main()
                     printf("Already have in the tree\n");
                 }
                 break;
+            }
             case 2:
+            {
                 printf("Value:\n");
                 scanf("%d", &activeElement);
                 if (isInTree(tree, activeElement))
@@ -46,7 +49,9 @@ int main()
                     printf("Dont have this value in the tree\n");
                 }
                 break;
+            }
             case 3:
+            {
                 printf("Value:\n");
                 scanf("%d", &activeElement);
                 if (!isInTree(tree, activeElement))
@@ -58,18 +63,25 @@ int main()
                     printf("I have this value\n");
                 }
                 break;
+            }
             case 4:
+            {
                 printInAscendingOrder(tree);
                 printf("\n");
                 break;
+            }
             case 5:
+            {
                 printInDescendingOrder(tree);
                 printf("\n");
                 break;
+            }
             case 6:
+            {
                 printInRecurentOrder(tree);
                 printf("\n");
                 break;
+            }
         }
     }
 
