@@ -33,11 +33,12 @@ int main()
         input[i] = ' ';
     }
 
+    char* mistakeCheck = NULL;
     int numOfNonEmptyStrings = 0;
     do
     {
-        fgets(input, sizeof(char) * maxSize, file);
-        if (input == NULL)
+        mistakeCheck = fgets(input, sizeof(char) * maxSize, file);
+        if (mistakeCheck == NULL)
         {
             break;
         }
