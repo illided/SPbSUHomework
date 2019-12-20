@@ -260,6 +260,7 @@ void deleteNodeByPointer(Node* node, Tree* tree)
 {
     /* deleting a giving node and rearranging the nodes
      * (works properly with the root) */
+
     if (isLeaf(node))
     {
         replaceWithNull(node, tree);
@@ -326,6 +327,7 @@ Node* findNodeWithValue(int value, Node* node, Tree* tree)
      * value in the tree.
      * If it is found, then returns
      * a pointer to the node with this value */
+
     Node* output = NULL;
     if (value > node->value)
     {
@@ -352,6 +354,7 @@ bool isInTree(Tree* tree, int value)
 {
     /* return true if value contains in the tree
      * false - if it's not */
+
     if (isEmpty(tree) || (tree == NULL))
     {
         return false;
@@ -437,6 +440,7 @@ void printInRecurentOrder(Tree* tree)
 {
     /* calls a recurent function
      * print sub tree for a root */
+
     if (isEmpty(tree))
     {
         printf("()");
