@@ -92,7 +92,7 @@ void append(Tree* tree, int value)
 
 Node* findNodeWithValue(int value, Node* node)
 {
-    /* Search for a specific
+    /* search for a specific
      * value in the tree.
      * If it is found, then returns
      * a pointer to the node with this value */
