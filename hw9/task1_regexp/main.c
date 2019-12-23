@@ -54,6 +54,7 @@ int getState(enum stateList state, char input)
     switch (state)
     {
         case initial:
+        {
             if ((input == '+') || (input == '-'))
             {
                 return numSign;
@@ -63,13 +64,17 @@ int getState(enum stateList state, char input)
                 return firstDigits;
             }
             return somethingWrong;
+        }
         case numSign:
+        {
             if (isdigit(input))
             {
                 return firstDigits;
             }
             return somethingWrong;
+        }
         case firstDigits:
+        {
             if (input == '.')
             {
                 return dot;
@@ -83,13 +88,17 @@ int getState(enum stateList state, char input)
                 return exponent;
             }
             return somethingWrong;
+        }
         case dot:
+        {
             if (isdigit(input))
             {
                 return digitsAfterDot;
             }
             return somethingWrong;
+        }
         case digitsAfterDot:
+        {
             if (isdigit(input))
             {
                 return digitsAfterDot;
@@ -99,7 +108,9 @@ int getState(enum stateList state, char input)
                 return exponent;
             }
             return somethingWrong;
+        }
         case exponent:
+        {
             if (input == '+' || input == '-')
             {
                 return exponentSign;
@@ -109,13 +120,20 @@ int getState(enum stateList state, char input)
                 return exponentDigits;
             }
             return somethingWrong;
+        }
         case exponentSign:
         case exponentDigits:
+        {
             if (isdigit(input))
             {
                 return exponentDigits;
             }
             return somethingWrong;
+        }
+        case somethingWrong:
+        {
+            return somethingWrong;
+        }
     }
 }
 
