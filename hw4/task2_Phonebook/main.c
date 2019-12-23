@@ -3,10 +3,10 @@
 #include "hashTable.h"
 #include "stringByStudent.h"
 
-void addEntry(HashTable *numberByNameBook, HashTable *nameByNumberBook)
+void addEntry(HashTable* numberByNameBook, HashTable* nameByNumberBook)
 {
-    String *nameString = createEmptyString();
-    String *phoneString = createEmptyString();
+    String* nameString = createEmptyString();
+    String* phoneString = createEmptyString();
 
     printf("Name:\n");
     readToStringFromFile(nameString, stdin);
@@ -26,7 +26,7 @@ void addEntry(HashTable *numberByNameBook, HashTable *nameByNumberBook)
     deleteString(phoneString);
 }
 
-void printSearchResult(String *nameString, String *phoneString)
+void printSearchResult(String* nameString, String* phoneString)
 {
     printf("Search result: ");
     printStringToFile(nameString, stdout);
@@ -35,9 +35,9 @@ void printSearchResult(String *nameString, String *phoneString)
     printf("\n");
 }
 
-FILE *openPhoneBook()
+FILE* openPhoneBook()
 {
-    FILE *phonebook = fopen("phonebook.txt", "r");  // opening the file or creating it
+    FILE* phonebook = fopen("phonebook.txt", "r");  // opening the file or creating it
     if (phonebook == NULL)
     {
         printf("Phone book was not found \nCreating the phone book...\n");
@@ -51,12 +51,12 @@ FILE *openPhoneBook()
 
 int main()
 {
-    FILE *phoneBook = openPhoneBook();
+    FILE* phoneBook = openPhoneBook();
 
-    HashTable *numberByNameBook = createHashTable(20);
-    HashTable *nameByNumberBook = createHashTable(20);
-    String *nameString = createEmptyString();
-    String *phoneString = createEmptyString();
+    HashTable* numberByNameBook = createHashTable(20);
+    HashTable* nameByNumberBook = createHashTable(20);
+    String* nameString = createEmptyString();
+    String* phoneString = createEmptyString();
 
     while (!feof(phoneBook))  // loading tables from file
     {
@@ -87,9 +87,12 @@ int main()
         switch (operation)
         {
             case 1:
+            {
                 addEntry(numberByNameBook, nameByNumberBook);
                 break;
+            }
             case 2:
+            {
                 printf("Number:\n");
                 readToStringFromFile(phoneString, stdin);
                 nameString = getFromHashTable(phoneString, nameByNumberBook);
@@ -102,7 +105,9 @@ int main()
                     printSearchResult(nameString, phoneString);
                 }
                 break;
+            }
             case 3:
+            {
                 printf("Name:\n");
                 readToStringFromFile(nameString, stdin);
                 phoneString = getFromHashTable(nameString, numberByNameBook);
@@ -115,7 +120,9 @@ int main()
                     printSearchResult(nameString, phoneString);
                 }
                 break;
+            }
             case 4:
+            {
                 phoneBook = fopen("phonebook.txt", "w");
                 if (phoneBook == NULL)
                 {
@@ -126,6 +133,7 @@ int main()
                 printf("Phone book was saved to the file!\n");
                 fclose(phoneBook);
                 break;
+            }
         }
     }
 
