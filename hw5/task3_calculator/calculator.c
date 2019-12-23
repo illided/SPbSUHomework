@@ -41,7 +41,7 @@ bool isInputCorrect(char input)
     return isOperation(input) || isdigit(input) || input == '(' || input == ')';
 }
 
-bool tryToHandleCloseBracket(int* outputLength, StackOfChar* specialCharsStack, char* output)
+bool handleCloseBracketWhileConverting(int* outputLength, StackOfChar* specialCharsStack, char* output)
 {
     /* if this is the close bracket then
     * keep adding to the output every operation from the stack
@@ -63,11 +63,10 @@ bool tryToHandleCloseBracket(int* outputLength, StackOfChar* specialCharsStack, 
     return true;
 }
 
-bool tryToHandleOperation(int* outputLength, StackOfChar* specialCharsStack, char* output, char currentChar)
+bool handleOperationWhileConverting(int* outputLength, StackOfChar* specialCharsStack, char* output, char currentChar)
 {
     /* if token is an operation then:
-    * 1) if op have bigger priority than op on the top of the stack
-    * add it to the stack
+    * 1) if op have bigger priority than op on the top of the stack add it to the stack
     * 2) else add top of the stack to output and repeat */
     int currentOperationPriority = getPriority(currentChar);
     while ((peekChar(specialCharsStack) != '(') &&
@@ -130,14 +129,14 @@ char* convertToReversePolishNotation(char* input)
         }
         else if (input[currentChar] == ')')
         {
-            if (!tryToHandleCloseBracket(&outputLength, specialCharsStack, output))
+            if (!handleCloseBracketWhileConverting(&outputLength, specialCharsStack, output))
             {
                 return NULL;
             }
         }
         else
         {
-            if (!tryToHandleOperation(&outputLength, specialCharsStack, output, input[currentChar]))
+            if (!handleOperationWhileConverting(&outputLength, specialCharsStack, output, input[currentChar]))
             {
                 return NULL;
             }
@@ -178,7 +177,48 @@ double getOperationResult(char operation, double firstNumber, double secondNumbe
     }
 }
 
-double getResultOfExpression(char* input, bool* inputIsCorrect)
+void handleOperationWhileCalculating(char input, StackOfDouble* numbers, bool* inputIsCorrect)
+{
+    if (size(numbers) < 2)
+    {
+        printf("Incorrect input\n");
+        deleteStackOfDouble(numbers);
+        *inputIsCorrect = false;
+    }
+    double secondNumber = popDouble(numbers);
+    double firstNumber = popDouble(numbers);
+    if ((secondNumber == 0) && (input == '/'))
+    {
+        printf("Incorrect input (tried to divide by zero)\n");
+        deleteStackOfDouble(numbers);
+        *inputIsCorrect = false;
+    }
+    appendDouble(getOperationResult(input, firstNumber, secondNumber), numbers);
+}
+
+double handleAnswer(bool bufferIsEmpty, double numberBuffer, StackOfDouble* numbers, bool* inputIsCorrect)
+{
+    if (!bufferIsEmpty)
+    {
+        appendDouble(numberBuffer, numbers);
+    }
+    double result = 0;
+    int numbersSize = size(numbers);
+    if (numbersSize == 1)
+    {
+        result = popDouble(numbers);
+    }
+    else if (numbersSize > 1)
+    {
+        printf("Incorrect input\n");
+        *inputIsCorrect = false;
+    }
+    deleteStackOfDouble(numbers);
+    *inputIsCorrect = true;
+    return result;
+}
+
+double getResultOfExpression(const char* input, bool* inputIsCorrect)
 {
     StackOfDouble* numbers = createStackOfDouble();
     double numberBuffer = 0;
@@ -192,24 +232,7 @@ double getResultOfExpression(char* input, bool* inputIsCorrect)
         }
         else if (isOperation(input[charPos]))
         {
-            if (size(numbers) < 2)
-            {
-                printf("Incorrect input\n");
-                deleteStackOfDouble(numbers);
-                *inputIsCorrect = false;
-                return 0;
-            }
-            double secondNumber = popDouble(numbers);
-            double firstNumber = popDouble(numbers);
-            if ((secondNumber == 0) && (input[charPos] == '/'))
-            {
-                printf("Incorrect input (tried to divide by zero)\n");
-                deleteStackOfDouble(numbers);
-                *inputIsCorrect = false;
-                return 0;
-            }
-            appendDouble(getOperationResult(input[charPos], firstNumber, secondNumber), numbers);
-
+            handleOperationWhileCalculating(input[charPos], numbers, inputIsCorrect);
         }
         else if (input[charPos] == ' ')
         {
@@ -228,25 +251,7 @@ double getResultOfExpression(char* input, bool* inputIsCorrect)
             return 0;
         }
     }
-    if (!bufferIsEmpty)
-    {
-        appendDouble(numberBuffer, numbers);
-    }
-    double result = 0;
-    int numbersSize = size(numbers);
-    if (numbersSize == 1)
-    {
-        result = popDouble(numbers);
-    }
-    else if (numbersSize > 1)
-    {
-        printf("Incorrect input\n");
-        deleteStackOfDouble(numbers);
-        return 0;
-    }
-    deleteStackOfDouble(numbers);
-    *inputIsCorrect = true;
-    return result;
+    return handleAnswer(bufferIsEmpty, numberBuffer, numbers, inputIsCorrect);
 }
 
 double calculate(char* input, bool* inputIsCorrect)
