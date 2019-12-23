@@ -69,7 +69,7 @@ char *importStringToArray(String *string)
     }
     int outputArrayLength = stringLength(string) + 1;
     char *output = malloc(sizeof(char) * outputArrayLength);
-    for (int i = 0; i < outputArrayLength; i++)
+    for (int i = 0; i < outputArrayLength - 1; i++)
     {
         output[i] = string->content[i];
     }
@@ -115,14 +115,14 @@ void readToStringFromFile(String *string, FILE *file)
 
     while ((input != '\n') && (!feof(file)))
     {
+        stringContent[stringLength] = input;
+        stringLength++;
+        input = fgetc(file);
         if (stringLength == stringSpace)
         {
             stringSpace *= 2;
             stringContent = realloc(stringContent, sizeof(char) * stringSpace);
         }
-        stringContent[stringLength] = input;
-        stringLength++;
-        input = fgetc(file);
     }
 
     stringContent = realloc(stringContent, sizeof(char) * stringLength);

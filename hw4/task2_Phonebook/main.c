@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "hashTable.h"
 #include "stringByStudent.h"
 
@@ -95,6 +94,7 @@ int main()
             {
                 printf("Number:\n");
                 readToStringFromFile(phoneString, stdin);
+                deleteString(nameString);
                 nameString = getFromHashTable(phoneString, nameByNumberBook);
                 if (nameString == NULL)
                 {
@@ -110,10 +110,11 @@ int main()
             {
                 printf("Name:\n");
                 readToStringFromFile(nameString, stdin);
+                deleteString(phoneString);
                 phoneString = getFromHashTable(nameString, numberByNameBook);
                 if (phoneString == NULL)
                 {
-                    printf("I could not find a person with this name");
+                    printf("I could not find a person with this name\n");
                 }
                 else
                 {
@@ -140,8 +141,6 @@ int main()
     deleteString(nameString);
     deleteString(phoneString);
     deleteHashTable(nameByNumberBook);
-    free(nameByNumberBook);
     deleteHashTable(numberByNameBook);
-    free(numberByNameBook);
     return 0;
 }
