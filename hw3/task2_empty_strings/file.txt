@@ -1,0 +1,10 @@
+hello
+my name is file
+   
+spaces
+		
+tabs
+
+nothing
+		 
+two tabs and whitespace
