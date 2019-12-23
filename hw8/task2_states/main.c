@@ -12,7 +12,6 @@ int main()
     }
 
     Graph* countryGraph = createGraph();
-    Graph* solutionGraph = NULL;
     int numOfRoads = 0;
     int numOfCities = 0;
     int firstCity = 0;
@@ -33,7 +32,6 @@ int main()
     {
         fprintf(stderr, "Too many capitals, expected less than %d\n", numOfCities);
         deleteGraph(countryGraph);
-        deleteGraph(solutionGraph);
         return 1;
     }
 
@@ -43,11 +41,17 @@ int main()
         fscanf(citiesFile, "%d", &capitalsArray[i]);
     }
 
-    solutionGraph = cluster(countryGraph, capitalsArray, numOfCapitals);
-    printClustering(solutionGraph, capitalsArray, numOfCapitals);
-
+    Graph* solutionGraph = getClustering(countryGraph, capitalsArray, numOfCapitals);
+    if (solutionGraph != NULL)
+    {
+        printClustering(solutionGraph, capitalsArray, numOfCapitals);
+        deleteGraph(solutionGraph);
+    }
+    else
+    {
+        printf("Something went wrong. Please check if the input correct\n");
+    }
     deleteGraph(countryGraph);
-    deleteGraph(solutionGraph);
     free(capitalsArray);
     return 0;
 }

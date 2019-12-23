@@ -250,62 +250,93 @@ VertexListElement* concatenateVertexList(VertexListElement* lastElement, VertexL
     return lastElement;
 }
 
-Graph* cluster(Graph* graph, const int* keyArray, int keyArrayLength)
+Vertex** findManyVertices(Graph* graph, const int* keyArray, int keyArrayLength)
+{
+    Vertex** verticesArray = malloc(sizeof(Vertex*) * keyArrayLength);
+    Vertex* newVertex = NULL;
+    for (int i = 0; i < keyArrayLength; i++)
+    {
+        newVertex = findVertex(graph, keyArray[i]);
+        if (newVertex == NULL)
+        {
+            fprintf(stderr, "Capital was not found. Answer may be wrong\n");
+            free(verticesArray);
+            return NULL;
+        }
+        verticesArray[i] = newVertex;
+        newVertex->isChecked = true;
+    }
+    return verticesArray;
+}
+
+bool prepareClusterMatrix(Graph* graph, VertexList** clusterMatrix, const int* keyArray, int keyArrayLength,
+                          VertexListElement** lastElements)
+{
+    Vertex** capitalsArray = findManyVertices(graph, keyArray, keyArrayLength);
+    if (capitalsArray == NULL)
+    {
+        return false;
+    }
+    for (int i = 0; i < keyArrayLength; i++)
+    {
+        clusterMatrix[i] = createVertexList();
+        addToVertexList(clusterMatrix[i], capitalsArray[i], 0);
+        lastElements[i] = concatenateVertexList(clusterMatrix[i]->head, findVertex(graph, keyArray[i])->neighbors);
+    }
+    free(capitalsArray);
+    return true;
+}
+
+void deleteClusterMatrix(VertexList** clusterMatrix, int keyArrayLength)
+{
+    for (int i = 0; i < keyArrayLength; i++)
+    {
+        deleteVertexList(clusterMatrix[i]);
+    }
+    free(clusterMatrix);
+}
+
+Graph* getClustering(Graph* graph, const int* keyArray, int keyArrayLength)
 {
     if (graph == NULL || keyArray == NULL)
     {
         return NULL;
     }
-    Vertex** capitalsArray = malloc(sizeof(Vertex*) * keyArrayLength);
-    Vertex* newCapital = NULL;
-    for (int i = 0; i < keyArrayLength; i++)
-    {
-        newCapital = findVertex(graph, keyArray[i]);
-        if (newCapital == NULL)
-        {
-            free(capitalsArray);
-            return NULL;
-        }
-        capitalsArray[i] = newCapital;
-        newCapital->isChecked = true;
-    }
     Graph* clusteredGraph = createGraph();
     VertexList** clusterMatrix = malloc(sizeof(VertexList*) * keyArrayLength);
     VertexListElement** lastElementsArray = malloc(sizeof(VertexListElement*) * keyArrayLength);
+    if (!prepareClusterMatrix(graph, clusterMatrix, keyArray, keyArrayLength, lastElementsArray))
+    {
+        clearCheckFlag(graph);
+        free(clusterMatrix);
+        free(lastElementsArray);
+        deleteGraph(clusteredGraph);
+        return NULL;
+    }
     for (int i = 0; i < keyArrayLength; i++)
     {
         addToGraph(clusteredGraph, keyArray[i]);
-        clusterMatrix[i] = createVertexList();
-        addToVertexList(clusterMatrix[i], capitalsArray[i], 0);
-        lastElementsArray[i] = concatenateVertexList(clusterMatrix[i]->head, findVertex(graph, keyArray[i])->neighbors);
     }
+
     int vertexToConnect = graph->numOfVertices - clusteredGraph->numOfVertices;
     Vertex* nearestVertex = NULL;
     int currentCapital = 0;
     while (vertexToConnect != 0)
     {
-        if (currentCapital == keyArrayLength)
-        {
-            currentCapital = 0;
-        }
         nearestVertex = findNearestFreeVertex(clusterMatrix[currentCapital]);
         if (nearestVertex != NULL)
         {
             lastElementsArray[currentCapital] = concatenateVertexList(lastElementsArray[currentCapital],
                                                                       nearestVertex->neighbors);
             addToGraph(clusteredGraph, nearestVertex->key);
-            setConnection(clusteredGraph, nearestVertex->key, capitalsArray[currentCapital]->key, 0);
+            setConnection(clusteredGraph, nearestVertex->key, keyArray[currentCapital], 0);
             vertexToConnect--;
         }
-        currentCapital++;
+        currentCapital = (currentCapital + 1) % keyArrayLength;
     }
+
     clearCheckFlag(graph);
-    for (int i = 0; i < keyArrayLength; i++)
-    {
-        deleteVertexList(clusterMatrix[i]);
-    }
-    free(clusterMatrix);
-    free(capitalsArray);
+    deleteClusterMatrix(clusterMatrix, keyArrayLength);
     free(lastElementsArray);
     return clusteredGraph;
 }
