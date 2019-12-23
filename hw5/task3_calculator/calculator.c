@@ -178,7 +178,7 @@ double getOperationResult(char operation, double firstNumber, double secondNumbe
     }
 }
 
-double getResultOfExpression(char* input)
+double getResultOfExpression(char* input, bool* inputIsCorrect)
 {
     StackOfDouble* numbers = createStackOfDouble();
     double numberBuffer = 0;
@@ -196,6 +196,7 @@ double getResultOfExpression(char* input)
             {
                 printf("Incorrect input\n");
                 deleteStackOfDouble(numbers);
+                *inputIsCorrect = false;
                 return 0;
             }
             double secondNumber = popDouble(numbers);
@@ -204,6 +205,7 @@ double getResultOfExpression(char* input)
             {
                 printf("Incorrect input (tried to divide by zero)\n");
                 deleteStackOfDouble(numbers);
+                *inputIsCorrect = false;
                 return 0;
             }
             appendDouble(getOperationResult(input[charPos], firstNumber, secondNumber), numbers);
@@ -222,6 +224,7 @@ double getResultOfExpression(char* input)
         {
             printf("Incorrect input (strange char)\n");
             deleteStackOfDouble(numbers);
+            *inputIsCorrect = false;
             return 0;
         }
     }
@@ -242,16 +245,17 @@ double getResultOfExpression(char* input)
         return 0;
     }
     deleteStackOfDouble(numbers);
+    *inputIsCorrect = true;
     return result;
 }
 
-double calculate(char* input)
+double calculate(char* input, bool* inputIsCorrect)
 {
     double result = 0;
     char* inputInReversePolishNotation = convertToReversePolishNotation(input);
     if (inputInReversePolishNotation != NULL)
     {
-        result = getResultOfExpression(inputInReversePolishNotation);
+        result = getResultOfExpression(inputInReversePolishNotation, inputIsCorrect);
     }
     free(inputInReversePolishNotation);
     return result;
