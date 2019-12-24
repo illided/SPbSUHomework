@@ -194,6 +194,11 @@ int main()
                 fclose(phoneBook);
                 break;
             }
+            case 0:
+            {
+                printf("Goodbye!\n");
+                break;
+            }
             default:
             {
                 printf("Invalid command\n");
