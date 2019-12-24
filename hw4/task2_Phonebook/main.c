@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 
-char* createString(int stringLength)
+char* createArrayOfChar(int stringLength)
 {
     char* localString = malloc(sizeof(char) * stringLength);
     for (int i = 0; i < stringLength; i++)
@@ -15,12 +15,12 @@ char* createString(int stringLength)
     return localString;
 }
 
-char* getString()
+char* getArrayOfChar()
 {
     // gets a string from stdin with random size
     int maxSize = 5;
     int stringLength = 0;
-    char* output = createString(maxSize);
+    char* output = createArrayOfChar(maxSize);
     char input = ' ';
 
     scanf("%c", &input);
@@ -43,7 +43,7 @@ int getNumber(bool* inputIsCorrect)
 {
     char* mistakeChecker = NULL;
     int input = 0;
-    char* stringInput = getString();
+    char* stringInput = getArrayOfChar();
     input = strtol(stringInput, &mistakeChecker, 10);
     if (mistakeChecker != NULL && strlen(mistakeChecker) > 0)
     {
