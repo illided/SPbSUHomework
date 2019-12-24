@@ -1,6 +1,60 @@
 #include <stdio.h>
 #include "hashTable.h"
 #include "stringByStudent.h"
+#include <string.h>
+#include <stdlib.h>
+
+
+char* createString(int stringLength)
+{
+    char* localString = malloc(sizeof(char) * stringLength);
+    for (int i = 0; i < stringLength; i++)
+    {
+        localString[i] = ' ';
+    }
+    return localString;
+}
+
+char* getString()
+{
+    // gets a string from stdin with random size
+    int maxSize = 5;
+    int stringLength = 0;
+    char* output = createString(maxSize);
+    char input = ' ';
+
+    scanf("%c", &input);
+    while (input != '\n')
+    {
+        output[stringLength] = input;
+        stringLength++;
+        scanf("%c", &input);
+        if (stringLength == maxSize)
+        {
+            maxSize *= 2;
+            output = realloc(output, sizeof(char) * maxSize);
+        }
+    }
+    output[stringLength] = '\0';
+    return output;
+}
+
+int getNumber(bool* inputIsCorrect)
+{
+    char* mistakeChecker = NULL;
+    int input = 0;
+    char* stringInput = getString();
+    input = strtol(stringInput, &mistakeChecker, 10);
+    if (mistakeChecker != NULL && strlen(mistakeChecker) > 0)
+    {
+        *inputIsCorrect = false;
+        free(stringInput);
+        return -1;
+    }
+    free(stringInput);
+    *inputIsCorrect = true;
+    return input;
+}
 
 void addEntry(HashTable* numberByNameBook, HashTable* nameByNumberBook)
 {
@@ -78,11 +132,16 @@ int main()
            "4: save your phone book\n"
            "0: close phone book\n");
     int operation = -1;
+    bool inputIsCorrect = false;
     while (operation != 0)
     {
         printf("Operation:\n");
-        scanf("%d", &operation);
-        getc(stdin);
+        operation = getNumber(&inputIsCorrect);
+        if (!inputIsCorrect)
+        {
+            printf("Invalid command\n");
+            continue;
+        }
         switch (operation)
         {
             case 1:
@@ -133,6 +192,11 @@ int main()
                 printHashTableContentToFile(numberByNameBook, phoneBook);
                 printf("Phone book was saved to the file!\n");
                 fclose(phoneBook);
+                break;
+            }
+            default:
+            {
+                printf("Invalid command\n");
                 break;
             }
         }
