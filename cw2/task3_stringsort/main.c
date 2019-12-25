@@ -69,8 +69,8 @@ int main()
         fprintf(stderr, "Cant create the file\n");
         return 2;
     }
-    char* uniqueString = stringArray[1];
-    for (int i = 0; i < stringArrayLength; i++)
+    char* uniqueString = stringArray[0];
+    for (int i = 1; i < stringArrayLength; i++)
     {
         if (strcasecmp(uniqueString, stringArray[i]) == 0)
         {
