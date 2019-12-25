@@ -44,6 +44,12 @@ int getNumber(bool* inputIsCorrect)
     char* mistakeChecker = NULL;
     int input = 0;
     char* stringInput = getArrayOfChar();
+    if (stringInput[0] == '\0')
+    {
+        *inputIsCorrect = false;
+        free(stringInput);
+        return -1;
+    }
     input = strtol(stringInput, &mistakeChecker, 10);
     if (mistakeChecker != NULL && strlen(mistakeChecker) > 0)
     {
@@ -102,12 +108,8 @@ FILE* openPhoneBook()
     return phonebook;
 }
 
-int main()
+void prepareHashTables(HashTable* numberByNameBook, HashTable* nameByNumberBook, FILE* phoneBook)
 {
-    FILE* phoneBook = openPhoneBook();
-
-    HashTable* numberByNameBook = createHashTable(20);
-    HashTable* nameByNumberBook = createHashTable(20);
     String* nameString = createEmptyString();
     String* phoneString = createEmptyString();
 
@@ -122,6 +124,66 @@ int main()
         }
     }
     fclose(phoneBook);
+    deleteString(nameString);
+    deleteString(phoneString);
+}
+
+void savePhoneBook(HashTable* numberByNameBook)
+{
+    FILE* phoneBook = fopen("phonebook.txt", "w");
+    if (phoneBook == NULL)
+    {
+        printf("Cant open or create file\n");
+        return;
+    }
+    printHashTableContentToFile(numberByNameBook, phoneBook);
+    printf("Phone book was saved to the file!\n");
+    fclose(phoneBook);
+}
+
+void searchByNumber(HashTable* nameByNumberBook)
+{
+    String* phoneString = createEmptyString();
+    printf("Number:\n");
+    readToStringFromFile(phoneString, stdin);
+    String* nameString = getFromHashTable(phoneString, nameByNumberBook);
+    if (nameString == NULL)
+    {
+        printf("I could not find a person with this number\n");
+    }
+    else
+    {
+        printSearchResult(nameString, phoneString);
+    }
+    deleteString(phoneString);
+    deleteString(nameString);
+}
+
+void searchByName(HashTable* numberByNameBook)
+{
+    String* nameString = createEmptyString();
+    printf("Name:\n");
+    readToStringFromFile(nameString, stdin);
+    String* phoneString = getFromHashTable(nameString, numberByNameBook);
+    if (phoneString == NULL)
+    {
+        printf("I could not find a person with this name\n");
+    }
+    else
+    {
+        printSearchResult(nameString, phoneString);
+    }
+    deleteString(nameString);
+    deleteString(phoneString);
+}
+
+int main()
+{
+    FILE* phoneBook = openPhoneBook();
+
+    HashTable* numberByNameBook = createHashTable(20);
+    HashTable* nameByNumberBook = createHashTable(20);
+    prepareHashTables(numberByNameBook, nameByNumberBook, phoneBook);
 
     printf("Hello! I am an interactive phone book. To work\n"
            "with me you need to first enter the operation number,\n"
@@ -133,6 +195,8 @@ int main()
            "0: close phone book\n");
     int operation = -1;
     bool inputIsCorrect = false;
+    String* nameString = createEmptyString();
+    String* phoneString = createEmptyString();
     while (operation != 0)
     {
         printf("Operation:\n");
@@ -151,47 +215,17 @@ int main()
             }
             case 2:
             {
-                printf("Number:\n");
-                readToStringFromFile(phoneString, stdin);
-                deleteString(nameString);
-                nameString = getFromHashTable(phoneString, nameByNumberBook);
-                if (nameString == NULL)
-                {
-                    printf("I could not find a person with this number\n");
-                }
-                else
-                {
-                    printSearchResult(nameString, phoneString);
-                }
+                searchByNumber(nameByNumberBook);
                 break;
             }
             case 3:
             {
-                printf("Name:\n");
-                readToStringFromFile(nameString, stdin);
-                deleteString(phoneString);
-                phoneString = getFromHashTable(nameString, numberByNameBook);
-                if (phoneString == NULL)
-                {
-                    printf("I could not find a person with this name\n");
-                }
-                else
-                {
-                    printSearchResult(nameString, phoneString);
-                }
+                searchByName(numberByNameBook);
                 break;
             }
             case 4:
             {
-                phoneBook = fopen("phonebook.txt", "w");
-                if (phoneBook == NULL)
-                {
-                    printf("Cant open or create file\n");
-                    break;
-                }
-                printHashTableContentToFile(numberByNameBook, phoneBook);
-                printf("Phone book was saved to the file!\n");
-                fclose(phoneBook);
+                savePhoneBook(numberByNameBook);
                 break;
             }
             case 0:
