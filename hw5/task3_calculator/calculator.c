@@ -1,4 +1,5 @@
-#include "stack.h"
+#include "stackOfChar.h"
+#include "stackOfDouble.h"
 #include "simpleArrays.h"
 #include "string.h"
 #include <ctype.h>
