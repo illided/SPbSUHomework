@@ -1,4 +1,4 @@
-# SPbSUHomework
+# SPbSUHomework (Outdated)
 
 
 Repository for homeworks.
